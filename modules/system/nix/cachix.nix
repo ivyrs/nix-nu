@@ -10,9 +10,9 @@
       "ivyturner.cachix.org-1:G+GeQA1oBRaM2FfsUJph4QH8bNlkpvEQmxt42YFO00o="
     ];
   };
-  
+
   # TODO fix auth tokens
-  sops.secrets.cachix-auth-token-alder = {};
+  sops.secrets.cachix-auth-token-alder = { };
 
   systemd.services.cachix-watch-store = {
     description = "Push new /nix/store paths to the ivyturner Cachix cache";
@@ -30,11 +30,9 @@
     ];
 
     serviceConfig = {
-      ExecStart =
-        "${pkgs.cachix}/bin/cachix watch-store ivyturner";
+      ExecStart = "${pkgs.cachix}/bin/cachix watch-store ivyturner";
 
-      EnvironmentFile =
-        config.sops.secrets.cachix-auth-token-alder.path;
+      EnvironmentFile = config.sops.secrets.cachix-auth-token-alder.path;
 
       Restart = "on-failure";
       RestartSec = "30s";

@@ -1,4 +1,4 @@
-{pkgs, lib, ...}:
+{ pkgs, lib, ... }:
 {
   xdg.portal = {
     enable = true;
@@ -10,13 +10,13 @@
 
     config = {
       common = {
-        default = ["gtk"];
+        default = [ "gtk" ];
       };
 
       niri = {
-        default = lib.mkForce ["gtk"];
-        "org.freedesktop.impl.portal.ScreenCast" = ["gnome"];
-        "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
+        default = lib.mkForce [ "gtk" ];
+        "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
       };
     };
   };

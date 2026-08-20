@@ -1,0 +1,50 @@
+{ pkgs, lib, ... }: {
+  home.packages = with pkgs; [
+    ripgrep
+    fd
+    jq
+    eza
+    duf
+    btop
+    dust
+    procs
+    sd
+    just
+    ripgrep-all
+    tokei
+    hyperfine
+    xh
+    mprocs
+    kondo
+  ];
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+    # mkDefault: hosts without noctalia keep these Catppuccin colors.
+    # Hosts with noctalia get this replaced by user template (see noctalia.nix)
+    defaultOptions = lib.mkDefault [
+      "--style=minimal"
+      "--info=inline-right"
+      "--highlight-line"
+      "--no-separator"
+      "--color=fg:#cdd6f4,bg:#1e1e2e,hl:#f38ba8,fg+:#cdd6f4,bg+:#313244"
+      "--color=hl+:#f38ba8,info:#cba6f7,prompt:#cba6f7,pointer:#f5e0dc"
+      "--color=marker:#f8ebe8,spinner:#f5e0dc,header:#f38ba8,border:#585b70"
+      "--color=gutter:#313244"
+    ];
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+    options = [ "--cmd cd" ];
+  };
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    enableNushellIntegration = true;
+    config.global.hide_env_diff = true;
+  };
+}
