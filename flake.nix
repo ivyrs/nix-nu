@@ -8,12 +8,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # it makes macs go :eyes: 
+    # it makes macs go :eyes:
     asahi-firmware = {
       url = "path:/etc/nixos/asahi-firmware";
       flake = false;
     };
-    
+
     # speaking in tongues (age encrypted strings)
     sops = {
       url = "github:Mic92/sops-nix";
@@ -25,21 +25,23 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     # wallpaper engine
     noctalia.url = "github:noctalia-dev/noctalia";
   };
 
-  outputs = inputs@{ nixpkgs, ... }: {
-    nixosConfigurations.alder = nixpkgs.lib.nixosSystem {
-      system = "aarch64-linux";
+  outputs =
+    inputs@{ nixpkgs, ... }:
+    {
+      nixosConfigurations.alder = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
 
-      specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs; };
 
-      modules = [ 
-        ./hosts/nixos/alder
-        inputs.home-manager.nixosModules.home-manager
-      ];
+        modules = [
+          ./hosts/nixos/alder
+          inputs.home-manager.nixosModules.home-manager
+        ];
+      };
     };
-  };
 }
