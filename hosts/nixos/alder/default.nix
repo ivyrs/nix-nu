@@ -19,6 +19,7 @@
     ../../../modules/services/ly.nix
     ../../../modules/desktop/niri.nix
     ../../../modules/desktop/portals.nix
+    ../../../modules/desktop/audio.nix
   ];
 
   networking = {
