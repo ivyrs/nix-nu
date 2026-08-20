@@ -6,7 +6,7 @@
 
     ../../../modules/hardware/apple-silicon.nix
 
-    ../../../modules/system/nix/default.nix
+    ../../../modules/system/nix
     ../../../modules/system/nix/nixos.nix
     ../../../modules/system/nix/cachix.nix
     
@@ -21,6 +21,8 @@
     ../../../modules/desktop/portals.nix
     ../../../modules/desktop/audio.nix
     ../../../modules/desktop/noctalia.nix
+    
+    ../../../modules/system/home-manager.nix
   ];
 
   networking = {

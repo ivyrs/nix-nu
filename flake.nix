@@ -19,6 +19,12 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # symlink everything
+    home-manager = {
+      url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     
     # wallpaper engine
     noctalia.url = "github:noctalia-dev/noctalia";
@@ -30,7 +36,10 @@
 
       specialArgs = { inherit inputs; };
 
-      modules = [ ./hosts/nixos/alder ];
+      modules = [ 
+        ./hosts/nixos/alder
+        inputs.home-manager.nixosModules.home-manager
+      ];
     };
   };
 }
