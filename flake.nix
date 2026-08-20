@@ -8,29 +8,29 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # proprietary Apple firmware; kept outside the public repo
+    # it makes macs go :eyes: 
     asahi-firmware = {
       url = "path:/etc/nixos/asahi-firmware";
       flake = false;
     };
-
+    
+    # speaking in tongues (age encrypted strings)
     sops = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    # wallpaper engine
+    noctalia.url = "github:noctalia-dev/noctalia";
   };
 
   outputs = inputs@{ nixpkgs, ... }: {
     nixosConfigurations.alder = nixpkgs.lib.nixosSystem {
       system = "aarch64-linux";
 
-      specialArgs = {
-        inherit inputs;
-      };
+      specialArgs = { inherit inputs; };
 
-      modules = [
-        ./hosts/nixos/alder
-      ];
+      modules = [ ./hosts/nixos/alder ];
     };
   };
 }

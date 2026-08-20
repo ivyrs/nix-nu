@@ -20,6 +20,7 @@
     ../../../modules/desktop/niri.nix
     ../../../modules/desktop/portals.nix
     ../../../modules/desktop/audio.nix
+    ../../../modules/desktop/noctalia.nix
   ];
 
   networking = {
@@ -35,6 +36,5 @@
 
   environment.systemPackages = []; # optional for now
 
-  # Keep the version Alder was originally installed with.
   system.stateVersion = "25.11";
 }
