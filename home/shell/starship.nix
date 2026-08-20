@@ -46,8 +46,8 @@
         format = "[$hostname]($style)[$ssh_symbol](bold blue) ";
         trim_at = ".";
         #aliases = {
-          #"aspen." = "aspen";
-          #"elm.${meta.tailnet}" = "elm";
+        #"aspen." = "aspen";
+        #"elm.${meta.tailnet}" = "elm";
         #};
         disabled = false;
       };
