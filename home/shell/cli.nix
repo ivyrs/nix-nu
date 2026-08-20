@@ -21,8 +21,6 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
-    # mkDefault: hosts without noctalia keep these Catppuccin colors.
-    # Hosts with noctalia get this replaced by user template (see noctalia.nix)
     defaultOptions = lib.mkDefault [
       "--style=minimal"
       "--info=inline-right"
@@ -41,10 +39,10 @@
     options = [ "--cmd cd" ];
   };
 
-  programs.direnv = {
-    enable = true;
-    enableZshIntegration = true;
-    enableNushellIntegration = true;
-    config.global.hide_env_diff = true;
-  };
+  #programs.direnv = {
+    #enable = true;
+    #enableZshIntegration = true;
+    #enableNushellIntegration = true;
+    #config.global.hide_env_diff = true;
+  #};
 }
