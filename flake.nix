@@ -43,5 +43,17 @@
           inputs.home-manager.nixosModules.home-manager
         ];
       };
+
+    homeModules = {
+      shell = ./home/shell;
+      git = ./home/git.nix;
+
+      default = {
+        imports = [
+          ./home/shell
+          ./home/git.nix
+        ];
+      };
     };
+  };
 }
