@@ -40,9 +40,9 @@
   };
 
   #programs.direnv = {
-    #enable = true;
-    #enableZshIntegration = true;
-    #enableNushellIntegration = true;
-    #config.global.hide_env_diff = true;
+  #enable = true;
+  #enableZshIntegration = true;
+  #enableNushellIntegration = true;
+  #config.global.hide_env_diff = true;
   #};
 }
