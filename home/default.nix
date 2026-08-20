@@ -11,6 +11,7 @@
 
   imports = [
     ./ghostty.nix
+    ./git.nix
     ./shell
   ];
 }
