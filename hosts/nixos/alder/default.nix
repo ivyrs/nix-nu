@@ -15,11 +15,14 @@
     ../../../modules/services/ssh.nix
     ../../../modules/services/sops.nix
     ../../../modules/services/tailscale.nix
-
     ../../../modules/services/ly.nix
+
     ../../../modules/desktop/niri.nix
     ../../../modules/desktop/portals.nix
     ../../../modules/desktop/audio.nix
+    ../../../modules/desktop/theme.nix
+
+    ../../../modules/system/fonts.nix
 
     ../../../modules/system/home-manager.nix
   ];
