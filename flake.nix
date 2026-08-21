@@ -52,11 +52,14 @@
       noctalia = ./home/noctalia.nix;
       nvim = ./home/neovim/core.nix;
       nvim-full = ./home/neovim;
+      tmux = ./home/tmux;
 
       default = {
         imports = [
           ./home/shell
           ./home/git.nix
+          ./home/neovim/core.nix
+          ./home/tmux
         ];
       };
     };

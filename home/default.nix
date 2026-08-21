@@ -15,5 +15,6 @@
     ./shell
     ./noctalia.nix
     ./neovim
+    ./tmux
   ];
 }
