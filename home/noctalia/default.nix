@@ -5,5 +5,6 @@
   programs.noctalia = {
     enable = true;
     settings = ./noctalia.toml;
+    systemd.enable = true;
   };
 }

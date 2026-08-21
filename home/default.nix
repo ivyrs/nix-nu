@@ -12,6 +12,7 @@
   imports = [
   ./shell
   ./noctalia
+  ./niri
   ./neovim
   ./tmux
 
@@ -22,6 +23,8 @@
   ./firefox.nix
   ./ai.nix
   ./gpg.nix
+
+  ./pim
 
   ./media.nix
   # ./music.nix

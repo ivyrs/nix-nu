@@ -1,0 +1,59 @@
+{
+  config,
+  lib,
+  ...
+}:
+
+{
+  accounts.email.accounts = {
+    ivy = {
+      primary = true;
+      address = "ivy@ivy.rs";
+      realName = "ivy forever";
+
+      flavor = "fastmail.com";
+
+      smtp.tls.useStartTls = true;
+
+      passwordCommand =
+        "cat /run/secrets/aerc-fastmail-password";
+
+      folders = {
+        inbox = "INBOX";
+        sent = "Sent";
+        drafts = "Drafts";
+        trash = "Trash";
+      };
+
+      aerc = {
+        enable = true;
+        extraAccounts."folders-sort" = "INBOX";
+      };
+
+      gpg = lib.mkIf config.programs.gpg.enable {
+        key = "63CC52ABA2340A766FADA1465E1C908C6C7B78F6";
+        signByDefault = true;
+        encryptByDefault = true;
+      };
+    };
+
+    gmail = {
+      address = "ivyturner78@gmail.com";
+      realName = "ivy forever";
+
+      flavor = "gmail.com";
+
+      passwordCommand =
+        "cat /run/secrets/gmail-app-password";
+
+      folders = {
+        inbox = "INBOX";
+        sent = "[Gmail]/Sent Mail";
+        drafts = "[Gmail]/Drafts";
+        trash = "[Gmail]/Trash";
+      };
+
+      aerc.enable = true;
+    };
+  };
+}

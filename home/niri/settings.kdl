@@ -1,0 +1,50 @@
+input {
+    keyboard {
+        xkb {
+            layout "gb"
+            variant "mac"
+            options "caps:escape"
+        }
+        numlock
+    }
+
+    touchpad { 
+        dwt
+    }
+
+    mouse {
+        accel-speed 0.5
+    }
+
+    trackpoint {
+        off
+    }
+}
+
+// Displays
+output "eDP-1" {
+    // off
+    mode "2880x1800@60"
+    scale 1.5
+    transform "normal"
+    position x=0 y=0
+}
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+// Disable the hot corners.
+gestures {
+    hot-corners {
+        off
+    }
+}
+
+overview {
+    zoom 0.32
+}
+
+prefer-no-csd
+
+screenshot-path "~/media/screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"

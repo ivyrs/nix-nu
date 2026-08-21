@@ -1,0 +1,4 @@
+include "./ux.kdl"
+include "./binds.kdl"
+include "./settings.kdl"
+include "./noctalia.kdl"
