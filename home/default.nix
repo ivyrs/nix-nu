@@ -29,5 +29,6 @@
     ./gpg.nix
     ./files/syncthing.nix
     ./files/zathura.nix
+    ./vesktop.nix
   ];
 }
