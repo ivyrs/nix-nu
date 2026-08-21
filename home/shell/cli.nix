@@ -1,6 +1,7 @@
 { pkgs, lib, ... }: {
   home.packages = with pkgs; [
     ripgrep
+    bat
     fd
     jq
     eza
