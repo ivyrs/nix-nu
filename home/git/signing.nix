@@ -14,7 +14,7 @@ in
     };
   };
 
-config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     assertions = [
       {
         assertion = cfg.key != null;
@@ -34,8 +34,7 @@ config = lib.mkIf cfg.enable {
       gpg = {
         format = "ssh";
 
-        ssh.allowedSignersFile =
-          "${config.xdg.configHome}/git/allowed_signers";
+        ssh.allowedSignersFile = "${config.xdg.configHome}/git/allowed_signers";
       };
     };
   };

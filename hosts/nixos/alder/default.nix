@@ -46,7 +46,7 @@
   environment.systemPackages = [ ]; # optional for now
 
   system.stateVersion = "25.11";
-  
+
   sops.defaultSopsFile = ../../../secrets/alder.yaml;
   sops.secrets = {
     aerc-fastmail-password.owner = "ivy";

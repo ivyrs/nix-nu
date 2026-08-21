@@ -28,10 +28,11 @@
         name = "ivy forever";
         email = "ivy@ivy.rs";
         signingkey =
-    if pkgs.stdenv.isDarwin
-    then "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICtFawaAWSklr1GGYiBZzGr/ydKSSOatBfGfY72eqKGZ"
-    else "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdNudbGaj76Gu5Kn9bKsTCb8cAMPM0lg/hS6TriaWY7";
-};
+          if pkgs.stdenv.isDarwin then
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICtFawaAWSklr1GGYiBZzGr/ydKSSOatBfGfY72eqKGZ"
+          else
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdNudbGaj76Gu5Kn9bKsTCb8cAMPM0lg/hS6TriaWY7";
+      };
 
       init.defaultBranch = "main";
       column.ui = "auto";
@@ -60,8 +61,8 @@
 
       help.autocorrect = "prompt";
       commit = {
-        verbose = true; 
-        gpgsign = true; 
+        verbose = true;
+        gpgsign = true;
       };
 
       gpg = {

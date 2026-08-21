@@ -30,15 +30,44 @@
     noctalia.url = "github:noctalia-dev/noctalia";
 
     nvf.url = "github:NotAShelf/nvf/v26.07";
+
+    # format all the things
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    inputs@{ nixpkgs, ... }:
+    inputs@{
+      self,
+      nixpkgs,
+      treefmt-nix,
+      ...
+    }:
+    let
+      systems = [
+        "aarch64-linux"
+        "aarch64-darwin"
+        "x86_64-linux"
+      ];
+
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+
+      treefmtEval = forAllSystems (
+        system:
+        treefmt-nix.lib.evalModule nixpkgs.legacyPackages.${system} {
+          programs.nixfmt.enable = true;
+        }
+      );
+    in
     {
       nixosConfigurations.alder = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
 
-        specialArgs = { inherit inputs; };
+        specialArgs = {
+          inherit inputs;
+        };
 
         modules = [
           ./hosts/nixos/alder
@@ -49,6 +78,7 @@
         shell = ./home/shell;
         tmux = ./home/tmux;
         git = ./home/git;
+
         nvim = ./home/neovim/core.nix;
         nvim-full = ./home/neovim;
 
@@ -73,5 +103,26 @@
           ];
         };
       };
+
+      formatter = forAllSystems (system: treefmtEval.${system}.config.build.wrapper);
+
+      checks = forAllSystems (system: {
+        formatting = treefmtEval.${system}.config.build.check self;
+      });
+
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          default = pkgs.mkShell {
+            packages = with pkgs; [
+              just
+              nil
+            ];
+          };
+        }
+      );
     };
 }

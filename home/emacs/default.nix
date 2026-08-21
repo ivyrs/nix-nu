@@ -6,8 +6,8 @@
 
     package = pkgs.emacs-pgtk;
 
-    extraPackages = epkgs:
-      with epkgs; [
+    extraPackages =
+      epkgs: with epkgs; [
         # Essentials
         use-package
         evil
@@ -45,14 +45,15 @@
         # Treesitter
         treesit-auto
 
-        (treesit-grammars.with-grammars (grammars:
-          with grammars; [
+        (treesit-grammars.with-grammars (
+          grammars: with grammars; [
             tree-sitter-javascript
             tree-sitter-typescript
             tree-sitter-tsx
             tree-sitter-astro
             tree-sitter-css
-          ]))
+          ]
+        ))
 
         # Languages
         rust-mode
