@@ -43,6 +43,14 @@
     firewall.enable = true;
   };
 
+  services.upower.enable = true;
+  services.power-profiles-daemon.enable = true;
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+
   environment.systemPackages = [ ]; # optional for now
 
   system.stateVersion = "25.11";
