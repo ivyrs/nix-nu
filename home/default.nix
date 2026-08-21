@@ -10,24 +10,23 @@
   programs.home-manager.enable = true;
 
   imports = [
-    ./syncthing.nix
     ./shell
     ./noctalia
     ./niri
     ./neovim
     ./tmux
-
-    ./ghostty.nix
+    ./files
     ./git
+    ./pim
+    ./media
+    
+    # ./media/music.nix
+    ./ghostty.nix
     ./bitwarden.nix
     ./firefox.nix
     ./ai.nix
     ./gpg.nix
-
-    ./pim
-
-    ./media.nix
-    # ./music.nix
-    ./zathura.nix
+    ./files/syncthing.nix
+    ./files/zathura.nix
   ];
 }

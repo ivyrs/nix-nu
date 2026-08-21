@@ -47,11 +47,14 @@
 
       homeModules = {
         shell = ./home/shell;
+        tmux = ./home/tmux;
         git = ./home/git;
-        noctalia = ./home/noctalia;
         nvim = ./home/neovim/core.nix;
         nvim-full = ./home/neovim;
-        tmux = ./home/tmux;
+
+        niri = ./home/niri;
+        ghostty = ./home/ghostty.nix;
+        noctalia = ./home/noctalia;
 
         default = {
           imports = [
@@ -59,6 +62,14 @@
             ./home/git
             ./home/neovim/core.nix
             ./home/tmux
+          ];
+        };
+
+        desktop = {
+          imports = [
+            ./home/niri
+            ./home/noctalia
+            ./home/ghostty.nix
           ];
         };
       };
