@@ -47,7 +47,7 @@
 
       homeModules = {
         shell = ./home/shell;
-        git = ./home/git.nix;
+        git = ./home/git;
         noctalia = ./home/noctalia;
         nvim = ./home/neovim/core.nix;
         nvim-full = ./home/neovim;
@@ -56,7 +56,7 @@
         default = {
           imports = [
             ./home/shell
-            ./home/git.nix
+            ./home/git
             ./home/neovim/core.nix
             ./home/tmux
           ];

@@ -18,7 +18,7 @@
     ./tmux
 
     ./ghostty.nix
-    ./git.nix
+    ./git
     ./bitwarden.nix
     ./keepassxc.nix
     ./firefox.nix

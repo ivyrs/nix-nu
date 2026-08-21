@@ -1,25 +1,16 @@
 {
-  lib,
   pkgs,
   ...
 }:
 {
-  # Installs delta and sets git's pager + interactive.diffFilter for us.
-  programs.delta = {
-    enable = true;
-    enableGitIntegration = true;
-    options = {
-      navigate = true; # use n and N to move between diff sections
-      dark = true; # or light = true, or omit for auto-detection
-    };
-  };
-
+  imports = [
+    ./delta.nix
+    ./lazygit.nix
+    ./signing.nix
+  ];
   programs.git = {
     enable = true;
 
-    # Global excludes, written to ~/.config/git/ignore (git's default
-    # location, so no core.excludesfile needed). Per-repo concerns like
-    # /result belong in each repo's own .gitignore.
     ignores = [
       # macOS
       ".DS_Store"
@@ -125,44 +116,6 @@
 
         # Safer pull
         pullff = "pull --ff-only";
-      };
-    };
-  };
-
-  programs.lazygit = {
-    enable = true;
-    # mkDefault: home-manager only symlinks config.yml when settings is
-    # non-empty. noctalia hosts force this back to {} (see noctalia.nix)
-    # so the file stays mutable for noctalia's own theme template to
-    # write into — a nix-store symlink there would fail that write.
-    settings = lib.mkDefault {
-      os.editPreset = "nvim";
-
-      git.pagers = [
-        {
-          colorArg = "always";
-          pager = "delta --dark --paging=never";
-        }
-      ];
-
-      # Catppuccin mocha, lavender accent — matches fzf/neovim theming.
-      gui = {
-        theme = {
-          activeBorderColor = [
-            "#b4befe"
-            "bold"
-          ];
-          inactiveBorderColor = [ "#a6adc8" ];
-          optionsTextColor = [ "#89b4fa" ];
-          selectedLineBgColor = [ "#313244" ];
-          cherryPickedCommitBgColor = [ "#45475a" ];
-          cherryPickedCommitFgColor = [ "#b4befe" ];
-          unstagedChangesColor = [ "#f38ba8" ];
-          defaultFgColor = [ "#cdd6f4" ];
-          searchingActiveBorderColor = [ "#f9e2af" ];
-        };
-        authorColors."*" = "#b4befe";
-        showRandomTip = false;
       };
     };
   };
