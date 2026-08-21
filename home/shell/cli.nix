@@ -16,6 +16,11 @@
     xh
     mprocs
     kondo
+    gh
+    sops
+    age
+    ssh-to-age
+    glow
   ];
 
   programs.fzf = {

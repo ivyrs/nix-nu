@@ -8,13 +8,22 @@
   };
 
   programs.home-manager.enable = true;
-
+  
   imports = [
-    ./ghostty.nix
-    ./git.nix
-    ./shell
-    ./noctalia.nix
-    ./neovim
-    ./tmux
-  ];
+  ./shell
+  ./noctalia
+  ./neovim
+  ./tmux
+
+  ./ghostty.nix
+  ./git.nix
+  ./bitwarden.nix
+  ./keepassxc.nix
+  ./firefox.nix
+  ./ai.nix
+
+  ./media.nix
+  # ./music.nix
+  ./zathura.nix
+];
 }

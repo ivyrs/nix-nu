@@ -42,14 +42,13 @@
 
         modules = [
           ./hosts/nixos/alder
-          inputs.home-manager.nixosModules.home-manager
         ];
       };
 
     homeModules = {
       shell = ./home/shell;
       git = ./home/git.nix;
-      noctalia = ./home/noctalia.nix;
+      noctalia = ./home/noctalia;
       nvim = ./home/neovim/core.nix;
       nvim-full = ./home/neovim;
       tmux = ./home/tmux;
