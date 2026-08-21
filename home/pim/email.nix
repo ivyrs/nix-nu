@@ -15,8 +15,7 @@
 
       smtp.tls.useStartTls = true;
 
-      passwordCommand =
-        "cat /run/secrets/aerc-fastmail-password";
+      passwordCommand = "cat /run/secrets/aerc-fastmail-password";
 
       folders = {
         inbox = "INBOX";
@@ -43,8 +42,7 @@
 
       flavor = "gmail.com";
 
-      passwordCommand =
-        "cat /run/secrets/gmail-app-password";
+      passwordCommand = "cat /run/secrets/gmail-app-password";
 
       folders = {
         inbox = "INBOX";

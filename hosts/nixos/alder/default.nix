@@ -16,6 +16,7 @@
     ../../../modules/services/sops.nix
     ../../../modules/services/tailscale.nix
     ../../../modules/services/ly.nix
+    ../../../modules/services/syncthing.nix
 
     ../../../modules/desktop/niri.nix
     ../../../modules/desktop/portals.nix
@@ -23,6 +24,7 @@
     ../../../modules/desktop/theme.nix
 
     ../../../modules/system/fonts.nix
+    ../../../modules/system/locale.nix
 
     ../../../modules/system/home-manager.nix
   ];
@@ -43,12 +45,10 @@
   system.stateVersion = "25.11";
 
   sops.secrets = {
-    aerc-fastmail-password = {
-      owner = "ivy";
-    };
-
-    gmail-app-password = {
-      owner = "ivy";
-    };
+    aerc-fastmail-password.owner = "ivy";
+    gmail-app-password.owner = "ivy";
+    ivy-nextcloud-app-password.owner = "ivy";
+    icloud-username.owner = "ivy";
+    icloud-password.owner = "ivy";
   };
 }

@@ -8,26 +8,26 @@
   };
 
   programs.home-manager.enable = true;
-  
+
   imports = [
-  ./shell
-  ./noctalia
-  ./niri
-  ./neovim
-  ./tmux
+    ./shell
+    ./noctalia
+    ./niri
+    ./neovim
+    ./tmux
 
-  ./ghostty.nix
-  ./git.nix
-  ./bitwarden.nix
-  ./keepassxc.nix
-  ./firefox.nix
-  ./ai.nix
-  ./gpg.nix
+    ./ghostty.nix
+    ./git.nix
+    ./bitwarden.nix
+    ./keepassxc.nix
+    ./firefox.nix
+    ./ai.nix
+    ./gpg.nix
 
-  ./pim
+    ./pim
 
-  ./media.nix
-  # ./music.nix
-  ./zathura.nix
-];
+    ./media.nix
+    # ./music.nix
+    ./zathura.nix
+  ];
 }

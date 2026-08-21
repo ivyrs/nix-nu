@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
-{ # TODO: decide which one i like
+{
+  # TODO: decide which one i like
   home.packages = with pkgs; [
     claude-code
     opencode
