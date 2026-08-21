@@ -28,6 +28,10 @@
     ../../../modules/system/home-manager.nix
   ];
 
+  home-manager.users.ivy.imports = [
+    ./home.nix
+  ];
+
   networking = {
     hostName = "alder";
 
