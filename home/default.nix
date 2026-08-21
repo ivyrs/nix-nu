@@ -20,7 +20,7 @@
     ./pim
     ./media
     
-    # ./media/music.nix
+    ./media/music.nix
     ./ghostty.nix
     ./bitwarden.nix
     ./firefox.nix
