@@ -14,5 +14,7 @@
     };
 
     users.ivy = import ../../home;
+
+    backupFileExtension = "hm-backup";
   };
 }
