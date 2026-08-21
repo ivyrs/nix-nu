@@ -28,6 +28,8 @@
 
     # wallpaper engine
     noctalia.url = "github:noctalia-dev/noctalia";
+
+    nvf.url = "github:NotAShelf/nvf/v26.07";
   };
 
   outputs =
@@ -48,6 +50,8 @@
       shell = ./home/shell;
       git = ./home/git.nix;
       noctalia = ./home/noctalia.nix;
+      nvim = ./home/neovim/core.nix;
+      nvim-full = ./home/neovim;
 
       default = {
         imports = [

@@ -50,6 +50,22 @@
         "type": "github"
       }
     },
+    "flake-compat_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777699697,
+        "narHash": "sha256-Eg9b/rq/ECYwNwEXs5i9wHyhxNI0JrYx2srdI2uZMaQ=",
+        "ref": "refs/heads/main",
+        "rev": "382052b74656a369c5408822af3f2501e9b1af81",
+        "revCount": 94,
+        "type": "git",
+        "url": "https://git.lix.systems/lix-project/flake-compat.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.lix.systems/lix-project/flake-compat.git"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -68,6 +84,21 @@
         "owner": "nix-community",
         "ref": "release-26.05",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "mnw": {
+      "locked": {
+        "lastModified": 1780772958,
+        "narHash": "sha256-VKKe8r4pwCGWZ3Yr9CPN129R4S3CKLSrlYqdYz3vKpM=",
+        "owner": "Gerg-L",
+        "repo": "mnw",
+        "rev": "0871dbf63a53610c95db04439ed8ea4d6ec9c160",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Gerg-L",
+        "repo": "mnw",
         "type": "github"
       }
     },
@@ -99,6 +130,19 @@
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1783148766,
+        "narHash": "sha256-H9+N+GFtsbVC8ZniHliChM7ndizxtqVZs6bnGOLM3WQ=",
+        "rev": "a50de1b7d8a586adc18d2395c19de7d6058e6030",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.4193.a50de1b7d8a5/nixexprs.tar.xz?lastModified=1783148766&rev=a50de1b7d8a586adc18d2395c19de7d6058e6030"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixos-26.05/nixexprs.tar.xz"
+      }
+    },
     "noctalia": {
       "inputs": {
         "nixpkgs": "nixpkgs_2"
@@ -117,6 +161,27 @@
         "type": "github"
       }
     },
+    "nvf": {
+      "inputs": {
+        "flake-compat": "flake-compat_2",
+        "mnw": "mnw",
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1785074026,
+        "narHash": "sha256-Y7YR0TMK+34pCV7PJZNVphIckdga4f9dO4+ORfYpNFk=",
+        "owner": "NotAShelf",
+        "repo": "nvf",
+        "rev": "3d8c91925ea9b6bb70dcdaa4544cd12a95194fc5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NotAShelf",
+        "ref": "v26.07",
+        "repo": "nvf",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "apple-silicon": "apple-silicon",
@@ -124,6 +189,7 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "noctalia": "noctalia",
+        "nvf": "nvf",
         "sops": "sops"
       }
     },

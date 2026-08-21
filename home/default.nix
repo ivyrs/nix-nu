@@ -14,5 +14,6 @@
     ./git.nix
     ./shell
     ./noctalia.nix
+    ./neovim
   ];
 }
