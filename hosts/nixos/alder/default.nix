@@ -20,7 +20,6 @@
     ../../../modules/desktop/niri.nix
     ../../../modules/desktop/portals.nix
     ../../../modules/desktop/audio.nix
-    ../../../modules/desktop/noctalia.nix
 
     ../../../modules/system/home-manager.nix
   ];

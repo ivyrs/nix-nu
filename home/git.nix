@@ -35,7 +35,7 @@
     settings = {
       user = {
         name = "ivy forever";
-        email = meta.email;
+        email = "ivy@ivy.rs";
       }
       # SSH commit signing via the 1Password app — only installed on
       # aspen (macOS); the Linux hosts (elm/houseplants) are headless

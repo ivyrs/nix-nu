@@ -13,5 +13,6 @@
     ./ghostty.nix
     ./git.nix
     ./shell
+    ./noctalia.nix
   ];
 }

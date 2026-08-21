@@ -47,6 +47,7 @@
     homeModules = {
       shell = ./home/shell;
       git = ./home/git.nix;
+      noctalia = ./home/noctalia.nix;
 
       default = {
         imports = [
