@@ -41,4 +41,14 @@
   environment.systemPackages = [ ]; # optional for now
 
   system.stateVersion = "25.11";
+
+  sops.secrets = {
+    aerc-fastmail-password = {
+      owner = "ivy";
+    };
+
+    gmail-app-password = {
+      owner = "ivy";
+    };
+  };
 }
