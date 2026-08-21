@@ -20,7 +20,6 @@
     ./ghostty.nix
     ./git
     ./bitwarden.nix
-    ./keepassxc.nix
     ./firefox.nix
     ./ai.nix
     ./gpg.nix

@@ -33,21 +33,6 @@ in
           ];
           ignorePerms = true;
         };
-
-        "password-store" = {
-          id = "password-store";
-          path = "${home}/.keepass";
-          devices = [ "elm" ];
-          ignorePerms = true;
-
-          versioning = {
-            type = "staggered";
-            params = {
-              cleanInterval = "3600";
-              maxAge = "2592000";
-            };
-          };
-        };
       };
 
       options.urAccepted = -1;
