@@ -36,14 +36,12 @@
       user = {
         name = "ivy forever";
         email = "ivy@ivy.rs";
-      }
-      # SSH commit signing via the 1Password app — only installed on
-      # aspen (macOS); the Linux hosts (elm/houseplants) are headless
-      # servers with no 1Password, so gpgsign here would break every
-      # commit for them.
-      // lib.optionalAttrs pkgs.stdenv.isDarwin {
-        signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICtFawaAWSklr1GGYiBZzGr/ydKSSOatBfGfY72eqKGZ";
-      };
+        signingkey =
+    if pkgs.stdenv.isDarwin
+    then "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICtFawaAWSklr1GGYiBZzGr/ydKSSOatBfGfY72eqKGZ"
+    else "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdNudbGaj76Gu5Kn9bKsTCb8cAMPM0lg/hS6TriaWY7";
+};
+
       init.defaultBranch = "main";
       column.ui = "auto";
       color.ui = "auto";
@@ -71,13 +69,12 @@
 
       help.autocorrect = "prompt";
       commit = {
-        verbose = true;
-      }
-      // lib.optionalAttrs pkgs.stdenv.isDarwin { gpgsign = true; };
+        verbose = true; 
+        gpgsign = true; 
+      };
 
-      gpg = lib.optionalAttrs pkgs.stdenv.isDarwin {
+      gpg = {
         format = "ssh";
-        ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
       };
 
       rerere = {
