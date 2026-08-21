@@ -21,6 +21,7 @@
   ./keepassxc.nix
   ./firefox.nix
   ./ai.nix
+  ./gpg.nix
 
   ./media.nix
   # ./music.nix
