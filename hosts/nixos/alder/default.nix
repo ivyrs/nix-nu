@@ -30,6 +30,7 @@
 
   home-manager.users.ivy.imports = [
     ./home.nix
+    ../../../home
   ];
 
   networking = {
