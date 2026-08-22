@@ -12,6 +12,8 @@
     ../../../modules/services/ssh.nix
     ../../../modules/services/sops.nix
     ../../../modules/services/tailscale.nix
+
+    ../../../modules/services/syncthing.nix
   ];
 
   home-manager.users.ivy.imports = [
