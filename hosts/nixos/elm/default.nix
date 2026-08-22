@@ -14,6 +14,7 @@
     ../../../modules/services/tailscale.nix
 
     ../../../modules/services/syncthing.nix
+    ../../../modules/services/pocket-id.nix
   ];
 
   home-manager.users.ivy.imports = [
