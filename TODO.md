@@ -189,3 +189,7 @@ Only do these when actual duplication makes them worthwhile.
 - Don't abstract until duplication or friction demonstrates a need.
 - Build and commit successful layers independently.
 - Keep proprietary Apple firmware outside the public repository.
+
+## Final cleanup
+
+- [ ] Redirect `ivyro.se/flake` to the `nix-nu` repository
