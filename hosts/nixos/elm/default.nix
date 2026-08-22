@@ -15,6 +15,7 @@
 
     ../../../modules/services/syncthing.nix
     ../../../modules/services/pocket-id.nix
+    ../../../modules/services/miniflux.nix
   ];
 
   home-manager.users.ivy.imports = [
