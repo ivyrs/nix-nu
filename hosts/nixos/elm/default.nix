@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   imports = [
     ./hardware.nix
@@ -9,6 +10,7 @@
 
     ../../../modules/users/ivy.nix
     ../../../modules/services/ssh.nix
+    ../../../modules/services/sops.nix
     ../../../modules/services/tailscale.nix
   ];
 
@@ -28,4 +30,14 @@
   };
 
   system.stateVersion = "25.11";
+
+  sops = {
+    defaultSopsFile = ../../../secrets/elm.yaml;
+
+    secrets.ivy-password-hash = {
+      neededForUsers = true;
+    };
+  };
+
+  users.users.ivy.hashedPasswordFile = config.sops.secrets.ivy-password-hash.path;
 }
