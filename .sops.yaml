@@ -4,6 +4,7 @@ keys:
   - &host_elm age13td2yjnfrcxydg4c2tk43muxxdsgzxmsyns0ygv892vp0p9grveqcvuut3
   - &host_houseplants age18k38qf03syeg5zsyunzz0llgn9jx9x5r9etlzwkytdst2v9f3g3q0605au
   - &host_alder age130fxnc93w6kndvmymhj5vu0ztzl7s478rdk7ksvswmslr646tcmqgl5kff
+  - &host_yew age1epgalun8qkry02srfmnzxsy7m0u7y847v548lm9pxsyz9s4wz46q0a9ty3
 
 creation_rules:
   - path_regex: secrets/alder\.yaml$
@@ -17,3 +18,9 @@ creation_rules:
       - age:
           - *admin_ivy
           - *host_elm
+
+  - path_regex: secrets/yew\.yaml$
+    key_groups:
+      - age:
+          - *admin_ivy
+          - *host_yew

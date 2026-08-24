@@ -44,6 +44,22 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ### YEW ----
+
+    safe-node-nixpkgs.url = "github:NixOS/nixpkgs/0ae2bc1419c3f345984c2629e72e7a631820fa4d";
+
+    nix-openclaw = {
+      url = "github:openclaw/nix-openclaw";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+      inputs.nix-openclaw-tools.follows = "nix-openclaw-tools";
+    };
+
+    nix-openclaw-tools = {
+      url = "github:openclaw/nix-openclaw-tools";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -91,6 +107,18 @@
 
         modules = [
           ./hosts/nixos/elm
+        ];
+      };
+
+      nixosConfigurations.yew = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+
+        specialArgs = {
+          inherit inputs;
+        };
+
+        modules = [
+          ./hosts/nixos/yew
         ];
       };
 
