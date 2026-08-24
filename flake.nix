@@ -2,6 +2,9 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-26.05";
 
+    # Keep hosts on stable; use this only for packages with a concrete need.
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+
     # hardware support
     apple-silicon = {
       url = "github:nix-community/nixos-apple-silicon/release-2026-07-30";

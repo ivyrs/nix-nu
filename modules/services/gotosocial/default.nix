@@ -1,7 +1,12 @@
-{ config, pkgs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 
 let
-  package = pkgs.gotosocial;
+  package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.gotosocial;
 
   themedAssets = pkgs.runCommand "gotosocial-themed-assets" { } ''
     cp -r ${package}/share/gotosocial/web/assets $out
