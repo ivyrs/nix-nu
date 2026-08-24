@@ -17,6 +17,7 @@
     ../../../modules/services/pocket-id.nix
     ../../../modules/services/miniflux.nix
     ../../../modules/services/vaultwarden.nix
+    ../../../modules/services/gotosocial
   ];
 
   home-manager.users.ivy.imports = [
