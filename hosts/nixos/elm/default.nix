@@ -16,6 +16,7 @@
     ../../../modules/services/syncthing.nix
     ../../../modules/services/pocket-id.nix
     ../../../modules/services/miniflux.nix
+    ../../../modules/services/vaultwarden.nix
   ];
 
   home-manager.users.ivy.imports = [
