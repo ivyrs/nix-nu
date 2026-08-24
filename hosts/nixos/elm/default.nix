@@ -21,6 +21,7 @@
     ../../../modules/services/forgejo.nix
     ../../../modules/services/glance
     ../../../modules/services/irc
+    ../../../modules/services/nextcloud.nix
   ];
 
   home-manager.users.ivy.imports = [
