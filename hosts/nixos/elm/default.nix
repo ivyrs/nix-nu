@@ -49,5 +49,6 @@
     };
   };
 
+  security.sudo.wheelNeedsPassword = false; # TODO:!!!! fix
   users.users.ivy.hashedPasswordFile = config.sops.secrets.ivy-password-hash.path;
 }
