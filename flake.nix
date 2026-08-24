@@ -136,6 +136,15 @@
             path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.elm;
           };
         };
+
+        nodes.yew = {
+          hostname = "yew.ocelot-perch.ts.net";
+
+          profiles.system = {
+            user = "root";
+            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.yew;
+          };
+        };
       };
 
       homeModules = {
