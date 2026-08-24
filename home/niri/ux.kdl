@@ -62,7 +62,7 @@ window-rule {
 }
 
 // rounded corners
-window-rule {
+/-window-rule {
     geometry-corner-radius 16
     clip-to-geometry true
 }
