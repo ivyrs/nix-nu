@@ -15,3 +15,6 @@ switch:
 
 update:
     nix flake update
+
+sync-noctalia:
+    noctalia config export > ./home/noctalia/noctalia.toml

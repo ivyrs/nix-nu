@@ -5,43 +5,24 @@ enable_sounds = true
 enabled = true
 
 [bar.default]
-auto_hide = true
-background_opacity = 0.4999999888241291
-center = [ "clock", "group:g2" ]
-concave_edge_corners = false
+auto_hide = false
+background_opacity = 0.099999997764825821
+capsule_group = []
+center = [ "clock", "cat", "media" ]
+concave_edge_corners = true
 end = [ "tray", "notifications", "network", "volume", "battery" ]
 font_weight = 400
-layer = "overlay"
-margin_ends = 0
+layer = "top"
+margin_ends = 192
 padding = 16
 position = "bottom"
-radius = 0
-reserve_space = false
+radius = 16
+reserve_space = true
 shadow = false
 show_on_workspace_switch = false
-start = [ "group:g1" ]
+start = [ "workspaces" ]
+thickness = 32
 widget_spacing = 10
-
-    [[bar.default.capsule_group]]
-    accordion = false
-    accordion_direction = "end"
-    border = ""
-    enabled = true
-    fill = "surface"
-    id = "g1"
-    members = [ "active_window", "workspaces" ]
-    opacity = 0.0
-    padding = 6.0
-
-    [[bar.default.capsule_group]]
-    accordion = false
-    accordion_direction = "end"
-    enabled = true
-    fill = "surface_variant"
-    id = "g2"
-    members = [ "cat", "media" ]
-    opacity = 0.0
-    padding = 6.0
 
 [battery.device."/org/freedesktop/UPower/devices/battery_hidpp_battery_0"]
 warning_threshold = 5
@@ -142,7 +123,7 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
     [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
     box_height = 196.0
     box_width = 810.0
-    cx = 960.0
+    cx = 960.0001220703125
     cy = 1018.0
     output = "eDP-1"
     placement_height = 1200.0
@@ -212,6 +193,10 @@ telemetry_enabled = true
     [shell.launcher]
     categories = false
     compact = true
+    pinned = [ "firefox", "emacs", "vesktop", "feishin" ]
+    show_app_origin_indicator = false
+    show_icons = false
+    sort_by_usage = false
 
     [shell.mpris]
     blacklist = [ "firefox" ]
@@ -219,6 +204,7 @@ telemetry_enabled = true
     [shell.panel]
     clipboard_position = "center_right"
     control_center_placement = "floating"
+    launcher_placement = "attached"
     open_near_click_control_center = true
     session_placement = "floating"
     session_position = "center"
@@ -278,7 +264,7 @@ builtin = "Ayu"
 community_palette = "Catppuccin Mocha Sapphire"
 mode = "dark"
 source = "wallpaper"
-wallpaper_scheme = "m3-content"
+wallpaper_scheme = "m3-fruit-salad"
 
     [theme.templates]
     builtin_ids = [ "btop", "emacs", "gtk3", "gtk4", "ghostty", "kcolorscheme", "niri", "qt" ]
@@ -317,13 +303,13 @@ transition_on_startup = true
     enabled = true
 
     [wallpaper.default]
-    path = "/home/ivy/media/images/wallpapers/oc_the_blackboard.png"
+    path = "/home/ivy/media/images/wallpapers/bafkreia6j6rjttfeem6wf3mbwgeaxbynef2ikgl2mjxozdennuzioq6i2m.webp"
 
     [wallpaper.last]
-    path = "/home/ivy/media/images/wallpapers/oc_the_blackboard.png"
+    path = "/home/ivy/media/images/wallpapers/bafkreia6j6rjttfeem6wf3mbwgeaxbynef2ikgl2mjxozdennuzioq6i2m.webp"
 
     [wallpaper.monitors.eDP-1]
-    path = "/home/ivy/media/images/wallpapers/oc_the_blackboard.png"
+    path = "/home/ivy/media/images/wallpapers/bafkreia6j6rjttfeem6wf3mbwgeaxbynef2ikgl2mjxozdennuzioq6i2m.webp"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
@@ -374,7 +360,9 @@ hide_when_no_media = true
 max_length = 500
 
 [widget.network]
+show_label = false
 show_vpn_label = true
+vpn_status = "both"
 
 [widget.notifications]
 hide_when_no_unread = true
