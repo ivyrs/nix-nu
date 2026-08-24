@@ -96,11 +96,9 @@
 
       deploy = {
         remoteBuild = true;
-        sshUser = "ivy";
-        interactiveSudo = true;
+        sshUser = "deploy";
         autoRollback = true;
         magicRollback = true;
-        confirmTimeout = 60;
 
         nodes.elm = {
           hostname = "elm.ocelot-perch.ts.net";
