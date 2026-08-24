@@ -20,6 +20,7 @@
     ../../../modules/services/gotosocial
     ../../../modules/services/forgejo.nix
     ../../../modules/services/glance
+    ../../../modules/services/irc
   ];
 
   home-manager.users.ivy.imports = [
