@@ -19,6 +19,7 @@
     ../../../modules/services/vaultwarden.nix
     ../../../modules/services/gotosocial
     ../../../modules/services/forgejo.nix
+    ../../../modules/services/glance
   ];
 
   home-manager.users.ivy.imports = [
