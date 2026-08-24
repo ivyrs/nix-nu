@@ -29,6 +29,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # wallpaper engine
     noctalia.url = "github:noctalia-dev/noctalia";
 
@@ -89,6 +94,24 @@
         ];
       };
 
+      deploy = {
+        remoteBuild = true;
+        sshUser = "ivy";
+        interactiveSudo = true;
+        autoRollback = true;
+        magicRollback = true;
+        confirmTimeout = 60;
+
+        nodes.elm = {
+          hostname = "elm.ocelot-perch.ts.net";
+
+          profiles.system = {
+            user = "root";
+            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.elm;
+          };
+        };
+      };
+
       homeModules = {
         shell = ./home/shell;
         tmux = ./home/tmux;
@@ -121,9 +144,15 @@
 
       formatter = forAllSystems (system: treefmtEval.${system}.config.build.wrapper);
 
-      checks = forAllSystems (system: {
-        formatting = treefmtEval.${system}.config.build.check self;
-      });
+      checks = forAllSystems (
+        system:
+        {
+          formatting = treefmtEval.${system}.config.build.check self;
+        }
+        // nixpkgs.lib.optionalAttrs (system == "x86_64-linux") (
+          inputs.deploy-rs.lib.${system}.deployChecks self.deploy
+        )
+      );
 
       devShells = forAllSystems (
         system:
@@ -135,6 +164,7 @@
             packages = with pkgs; [
               just
               nil
+              inputs.deploy-rs.packages.${system}.default
             ];
           };
         }
