@@ -30,5 +30,6 @@
     ./files/syncthing.nix
     ./files/zathura.nix
     ./vesktop.nix
+    ./obsidian.nix
   ];
 }
