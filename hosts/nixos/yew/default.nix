@@ -89,6 +89,13 @@
       openrouter-apikey.owner = "ivy";
       opencode-apikey.owner = "ivy";
       gateway-auth-token.owner = "ivy";
+
+      # for pim
+      aerc-fastmail-password.owner = "ivy";
+      gmail-app-password.owner = "ivy";
+      ivy-nextcloud-app-password.owner = "ivy";
+      icloud-username.owner = "ivy";
+      icloud-password.owner = "ivy";
     };
   };
 

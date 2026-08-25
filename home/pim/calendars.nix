@@ -40,7 +40,6 @@
             "love-computer"
             "contact_birthdays"
             "routines"
-            "tasks"
             [
               "focus"
               "02B695BE-0A2A-49F7-9123-57102E1B9213"
@@ -61,6 +60,11 @@
               "018ED70D-2567-4A5F-919B-76FCD0328BD1"
               "routines-breaks"
             ]
+            "inbox-1"
+            "wait"
+            "projects"
+            "someday"
+            "next"
           ];
 
           conflictResolution = "remote wins";
