@@ -122,6 +122,7 @@
 - [ ] Reuse shared system modules
 - [ ] Create `secrets/yew.yaml`
 - [ ] Migrate services
+- [ ] Add Pi-hole
 - [ ] Compare Elm and Yew before extracting shared server abstractions
 
 ## Houseplants
