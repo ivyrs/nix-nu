@@ -22,6 +22,7 @@
     age
     ssh-to-age
     glow
+    devenv
   ];
 
   programs.fzf = {
@@ -43,6 +44,20 @@
     enable = true;
     enableZshIntegration = true;
     options = [ "--cmd cd" ];
+  };
+
+  programs.atuin = {
+    enable = true;
+    enableZshIntegration = true;
+
+    settings = {
+      auto_sync = true;
+      sync_address = "http://elm:8888";
+
+      search_mode = "fuzzy";
+      filter_mode = "global";
+      filter_mode_shell_up_key_binding = "directory";
+    };
   };
 
   #programs.direnv = {
