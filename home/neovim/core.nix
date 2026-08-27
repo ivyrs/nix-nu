@@ -14,6 +14,7 @@
 
       vim.lsp.enable = true;
       vim.treesitter.enable = true;
+      vim.languages.enableTreesitter = true;
       vim.telescope.enable = true;
       vim.statusline.lualine.enable = true;
 
