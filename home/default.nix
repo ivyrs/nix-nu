@@ -20,7 +20,7 @@
     ./pim
     ./media
     ./emacs
-
+    ./gram.nix
     ./media/music.nix
     ./ghostty.nix
     ./bitwarden.nix
