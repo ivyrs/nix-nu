@@ -35,7 +35,7 @@
     };
 
     # wallpaper engine
-    noctalia.url = "github:noctalia-dev/noctalia";
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
 
     nvf.url = "github:NotAShelf/nvf/v26.07";
 
