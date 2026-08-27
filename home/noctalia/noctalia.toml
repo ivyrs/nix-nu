@@ -295,6 +295,11 @@ wallpaper_scheme = "m3-fruit-salad"
         input_path = "$XDG_CONFIG_HOME/noctalia/templates/tmux.conf"
         output_path = "$XDG_CONFIG_HOME/tmux/noctalia-theme.conf"
 
+        [theme.templates.user.neovim]
+        input_path = "$XDG_CONFIG_HOME/noctalia/templates/nvim-matugen.lua"
+        output_path = "$XDG_CONFIG_HOME/nvim-noctalia/matugen.lua"
+        post_hook = "pkill -SIGUSR1 nvim || true"
+
 [wallpaper]
 directory = "/home/ivy/media/images/wallpapers"
 transition_on_startup = true
