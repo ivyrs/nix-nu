@@ -1,5 +1,7 @@
+{ ... }:
+
 {
-  programs.nvf.settings.vim.languages = {
+  vim.languages = {
     nix.enable = true;
     markdown.enable = true;
 

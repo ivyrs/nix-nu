@@ -162,6 +162,33 @@
         };
       };
 
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          default = self.packages.${system}.neovim;
+
+          neovim =
+            (inputs.nvf.lib.neovimConfiguration {
+              inherit pkgs;
+              modules = [
+                ./home/neovim/config/core.nix
+                ./home/neovim/config/languages.nix
+              ];
+            }).neovim;
+
+          neovim-core =
+            (inputs.nvf.lib.neovimConfiguration {
+              inherit pkgs;
+              modules = [
+                ./home/neovim/config/core.nix
+              ];
+            }).neovim;
+        }
+      );
+
       formatter = forAllSystems (system: treefmtEval.${system}.config.build.wrapper);
 
       checks = forAllSystems (
