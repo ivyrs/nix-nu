@@ -8,6 +8,7 @@
     ./lazygit.nix
     ./signing.nix
   ];
+
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
@@ -28,11 +29,6 @@
       user = {
         name = "ivy forever";
         email = "ivy@ivy.rs";
-        signingkey =
-          if pkgs.stdenv.isDarwin then
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICtFawaAWSklr1GGYiBZzGr/ydKSSOatBfGfY72eqKGZ"
-          else
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdNudbGaj76Gu5Kn9bKsTCb8cAMPM0lg/hS6TriaWY7";
       };
 
       init.defaultBranch = "main";
