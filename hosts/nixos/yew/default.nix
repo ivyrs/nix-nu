@@ -18,24 +18,7 @@
     ../../../modules/services/tailscale.nix
   ];
 
-  # nix-openclaw's stable Node embeds SQLite 3.51.2, which OpenClaw rejects
-  # because of the upstream WAL-reset corruption bug. Source only Node from a
-  # verified package revision whose cached build uses SQLite 3.53.3.
-  nixpkgs.overlays = [
-    (
-      _final: prev:
-      let
-        safePkgs = inputs.safe-node-nixpkgs.legacyPackages.${prev.stdenv.hostPlatform.system};
-      in
-      {
-        nodejs_22 = safePkgs.nodejs_24;
-        "nodejs-slim_22" = safePkgs."nodejs-slim_24";
-      }
-    )
-    inputs.nix-openclaw.overlays.default
-  ];
-
-  home-manager.users.ivy.imports = [
+   home-manager.users.ivy.imports = [
     ./home.nix
   ];
 
@@ -82,26 +65,10 @@
       ivy-password-hash = {
         neededForUsers = true;
       };
-
-      # Readable by the ivy user so the OpenClaw systemd *user* service can
-      # load them at runtime (nix-openclaw reads file-path env values).
-      discord-bot-token.owner = "ivy";
-      openrouter-apikey.owner = "ivy";
-      opencode-apikey.owner = "ivy";
-      gateway-auth-token.owner = "ivy";
-
-      # for pim
-      aerc-fastmail-password.owner = "ivy";
-      gmail-app-password.owner = "ivy";
-      ivy-nextcloud-app-password.owner = "ivy";
-      icloud-username.owner = "ivy";
-      icloud-password.owner = "ivy";
     };
   };
 
   users.users.ivy = {
-    linger = true;
-
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdNudbGaj76Gu5Kn9bKsTCb8cAMPM0lg/hS6TriaWY7 ivy@alder"
     ];
