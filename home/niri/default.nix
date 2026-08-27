@@ -11,6 +11,8 @@
   services.udiskie.enable = true;
 
   home.packages = [
+    pkgs.wl-clipboard # move this into a Desktop file when it makes sense
+
     (pkgs.writeShellApplication {
       name = "focus-or-spawn";
 
