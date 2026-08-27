@@ -18,7 +18,7 @@
     ../../../modules/services/tailscale.nix
   ];
 
-   home-manager.users.ivy.imports = [
+  home-manager.users.ivy.imports = [
     ./home.nix
   ];
 
