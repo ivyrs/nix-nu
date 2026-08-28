@@ -43,10 +43,15 @@ layer-rule {
     place-within-backdrop true
 }
 
-// Open the Firefox picture-in-picture player as floating by default.
+// Open the Firefox picture-in-picture player as floating by default,
+// pinned to the top-right corner. (New windows already open on whatever
+// workspace is currently focused; that's niri's default.)
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
+    default-column-width { fixed 480; }
+    default-window-height { fixed 270; }
+    default-floating-position x=16 y=16 relative-to="top-right"
 }
 
 window-rule {
