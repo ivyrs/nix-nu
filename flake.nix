@@ -5,6 +5,11 @@
     # Keep hosts on stable; use this only for packages with a concrete need.
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # hardware support
     apple-silicon = {
       url = "github:nix-community/nixos-apple-silicon/release-2026-07-30";
@@ -107,6 +112,18 @@
         ];
       };
 
+      nixosConfigurations.houseplants = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+
+        specialArgs = {
+          inherit inputs;
+        };
+
+        modules = [
+          ./hosts/nixos/houseplants
+        ];
+      };
+
       deploy = {
         remoteBuild = true;
         sshUser = "deploy";
@@ -128,6 +145,15 @@
           profiles.system = {
             user = "root";
             path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.yew;
+          };
+        };
+
+        nodes.houseplants = {
+          hostname = "houseplants.ocelot-perch.ts.net";
+
+          profiles.system = {
+            user = "root";
+            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.houseplants;
           };
         };
       };

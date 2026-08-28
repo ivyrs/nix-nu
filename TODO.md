@@ -127,13 +127,13 @@
 
 ## Houseplants
 
-- [ ] Add `nixosConfigurations.houseplants`
-- [ ] Migrate hardware configuration
+- [x] Add `nixosConfigurations.houseplants`
+- [x] Migrate hardware configuration
 - [ ] Create `secrets/houseplants.yaml`
-- [ ] Migrate Disko
-- [ ] Migrate Caddy / public-edge configuration
-- [ ] Preserve public-edge vs private-service-host boundary
-- [ ] Migrate remaining services
+- [x] Migrate Disko
+- [x] Migrate Caddy / public-edge configuration
+- [x] Preserve public-edge vs private-service-host boundary
+- [ ] Migrate remaining services (glance-agent still needs `packages/glance-agent` ported)
 
 ## Pi
 

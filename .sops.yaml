@@ -24,3 +24,9 @@ creation_rules:
       - age:
           - *admin_ivy
           - *host_yew
+
+  - path_regex: secrets/houseplants\.yaml$
+    key_groups:
+      - age:
+          - *admin_ivy
+          - *host_houseplants

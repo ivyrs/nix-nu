@@ -2,8 +2,8 @@
   vim = {
     statusline.lualine.enable = true;
     binds.whichKey.enable = true;
-    
-    visuals = { 
+
+    visuals = {
       indent-blankline.enable = true;
       fidget-nvim.enable = true;
     };

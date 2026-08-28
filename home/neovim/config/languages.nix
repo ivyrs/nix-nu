@@ -18,14 +18,20 @@
     css.enable = true;
   };
 
-  vim.lsp.servers.nil.settings.nil.formatting.command = [ "nixfmt" "-" ];
+  vim.lsp.servers.nil.settings.nil.formatting.command = [
+    "nixfmt"
+    "-"
+  ];
 
   vim.formatter.conform-nvim = {
     enable = true;
     setupOpts = {
       formatters.oxfmt = {
         command = "oxfmt";
-        args = [ "--stdin-filepath" "$FILENAME" ];
+        args = [
+          "--stdin-filepath"
+          "$FILENAME"
+        ];
       };
       formatters_by_ft = {
         typescript = [ "oxfmt" ];
