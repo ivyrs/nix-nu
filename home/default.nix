@@ -31,5 +31,6 @@
     ./files/zathura.nix
     ./vesktop.nix
     ./obsidian.nix
+    ./files/nextcloud-client.nix
   ];
 }
