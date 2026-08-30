@@ -15,6 +15,7 @@
     ../../../modules/services/sops.nix
     ../../../modules/services/tailscale.nix
     ../../../modules/services/caddy
+    ../../../modules/services/xmpp
   ];
 
   home-manager.users.ivy.imports = [
@@ -30,6 +31,26 @@
     hostName = "houseplants";
     useDHCP = true;
 
+    # dhcpcd doesn't reliably populate /etc/resolv.conf before tailscaled
+    # takes over DNS management, leaving tailscaled with no fallback
+    # resolver for non-tailnet domains. Declare these statically instead.
+    nameservers = [
+      "185.12.64.2" # Hetzner recursive resolver
+      "185.12.64.1"
+    ];
+
+    interfaces.enp1s0.ipv6.addresses = [
+      {
+        address = "2a01:4f8:c17:7da9::1";
+        prefixLength = 64;
+      }
+    ];
+
+    defaultGateway6 = {
+      address = "fe80::1";
+      interface = "enp1s0";
+    };
+
     firewall = {
       enable = true;
       allowedTCPPorts = [
@@ -43,10 +64,6 @@
   services.openssh.openFirewall = false;
 
   services.tailscale.useRoutingFeatures = "server";
-  # Keeps public IPv6 SLAAC working: routing "server" mode enables IP
-  # forwarding, which otherwise silently disables SLAAC autoconf.
-  boot.kernel.sysctl."net.ipv6.conf.all.accept_ra" = 2;
-  boot.kernel.sysctl."net.ipv6.conf.default.accept_ra" = 2;
 
   system.stateVersion = "25.11";
 
@@ -76,10 +93,34 @@
   sops = {
     defaultSopsFile = ../../../secrets/houseplants.yaml;
 
-    secrets.ivy-password-hash = {
-      neededForUsers = true;
+    secrets = {
+      ivy-password-hash = {
+        neededForUsers = true;
+      };
+
+      desec-token = {
+        owner = "acme";
+        group = "acme";
+        mode = "0440";
+      };
     };
   };
 
   users.users.ivy.hashedPasswordFile = config.sops.secrets.ivy-password-hash.path;
+
+  security.acme = {
+    acceptTerms = true;
+    defaults = {
+      email = "ivy@ivy.rs";
+      dnsProvider = "desec";
+      environmentFile = config.sops.secrets.desec-token.path;
+    };
+    certs = {
+      "ivy.rs" = { };
+      "houseplants.cloud" = {
+        extraDomainNames = [ "conference.houseplants.cloud" ];
+      };
+      "xmpp.houseplants.cloud" = { };
+    };
+  };
 }
