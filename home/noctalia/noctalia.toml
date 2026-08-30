@@ -6,23 +6,27 @@ enabled = true
 
 [bar.default]
 auto_hide = false
-background_opacity = 0.099999997764825821
+background_opacity = 0.29999999329447746
 capsule_group = []
-center = [ "clock", "cat", "media" ]
+center = [ "cat", "workspaces", "media" ]
 concave_edge_corners = true
-end = [ "tray", "notifications", "network", "volume", "battery" ]
+end = [ "tray", "notifications", "network", "volume", "battery", "bar" ]
 font_weight = 400
+hover_highlight = false
 layer = "top"
-margin_ends = 192
+margin_ends = 720
 padding = 16
 position = "bottom"
 radius = 16
 reserve_space = true
 shadow = false
 show_on_workspace_switch = false
-start = [ "workspaces" ]
-thickness = 32
+start = [ "clock" ]
+thickness = 24
 widget_spacing = 10
+
+    [bar.default.dead_zone.actions]
+    scroll_down = "panel-toggle noctalia/wallhaven:browser"
 
 [battery.device."/org/freedesktop/UPower/devices/battery_hidpp_battery_0"]
 warning_threshold = 5
@@ -31,16 +35,7 @@ warning_threshold = 5
 enabled = true
 
     [calendar.account.houseplants_cal]
-    calendars = [
-        "personal",
-        "02B695BE-0A2A-49F7-9123-57102E1B9213",
-        "routines",
-        "316EC6A0-39CC-4207-BF20-F5AAFF41919E",
-        "love-computer",
-        "96E8D86B-8B89-4819-93A8-A766D22E99C1",
-        "018ED70D-2567-4A5F-919B-76FCD0328BD1",
-        "contact_birthdays"
-    ]
+    calendars = []
     credential_source = "file"
     name = "Houseplants"
     password_file = "/run/secrets/ivy-nextcloud-app-password"
@@ -113,12 +108,39 @@ fingerprint = false
 [lockscreen_widgets]
 enabled = false
 schema_version = 2
-widget_order = [ "lockscreen-login-box@eDP-1" ]
+widget_order = [ "lockscreen-login-box@WL-1", "lockscreen-login-box@eDP-1" ]
 
     [lockscreen_widgets.grid]
     cell_size = 16
     major_interval = 4
     visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@WL-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 468.0
+    cy = 962.0
+    output = "WL-1"
+    placement_height = 1144.0
+    placement_width = 936.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@WL-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
     box_height = 196.0
@@ -171,8 +193,11 @@ position_vertical = "top_right"
     lock_keys = false
     privacy = false
 
+[plugin_settings."noctalia/wallhaven"]
+api_key = "HpsWwKq1znrLVFV1dPuZ8rk84wg9E6Hu"
+
 [plugins]
-enabled = [ "noctalia/bongocat", "nightwatch75/file-search", "noctalia/wallhaven", "lowcache/claude-companion" ]
+enabled = [ "noctalia/wallhaven", "noctalia/bitwarden" ]
 
 [shell]
 app_icon_color = "primary"
@@ -202,10 +227,12 @@ telemetry_enabled = true
     blacklist = [ "firefox" ]
 
     [shell.panel]
-    clipboard_position = "center_right"
+    clipboard_position = "auto"
     control_center_placement = "floating"
-    launcher_placement = "attached"
+    launcher_placement = "floating"
+    launcher_position = "auto"
     open_near_click_control_center = true
+    polkit_position = "auto"
     session_placement = "floating"
     session_position = "center"
     shadow = true
@@ -264,7 +291,7 @@ builtin = "Ayu"
 community_palette = "Catppuccin Mocha Sapphire"
 mode = "dark"
 source = "wallpaper"
-wallpaper_scheme = "m3-fruit-salad"
+wallpaper_scheme = "m3-content"
 
     [theme.templates]
     builtin_ids = [ "btop", "emacs", "gtk3", "gtk4", "ghostty", "kcolorscheme", "niri", "qt" ]
@@ -291,14 +318,14 @@ wallpaper_scheme = "m3-fruit-salad"
         input_path = "$XDG_CONFIG_HOME/noctalia/templates/fzf.sh"
         output_path = "$XDG_CONFIG_HOME/fzf/noctalia-colors.sh"
 
-        [theme.templates.user.tmux]
-        input_path = "$XDG_CONFIG_HOME/noctalia/templates/tmux.conf"
-        output_path = "$XDG_CONFIG_HOME/tmux/noctalia-theme.conf"
-
         [theme.templates.user.neovim]
         input_path = "$XDG_CONFIG_HOME/noctalia/templates/nvim-matugen.lua"
         output_path = "$XDG_CONFIG_HOME/nvim-noctalia/matugen.lua"
         post_hook = "pkill -SIGUSR1 nvim || true"
+
+        [theme.templates.user.tmux]
+        input_path = "$XDG_CONFIG_HOME/noctalia/templates/tmux.conf"
+        output_path = "$XDG_CONFIG_HOME/tmux/noctalia-theme.conf"
 
 [wallpaper]
 directory = "/home/ivy/media/images/wallpapers"
@@ -308,13 +335,16 @@ transition_on_startup = true
     enabled = true
 
     [wallpaper.default]
-    path = "/home/ivy/media/images/wallpapers/bafkreia6j6rjttfeem6wf3mbwgeaxbynef2ikgl2mjxozdennuzioq6i2m.webp"
+    path = "/home/ivy/media/images/wallpapers/red-city.png"
 
     [wallpaper.last]
-    path = "/home/ivy/media/images/wallpapers/bafkreia6j6rjttfeem6wf3mbwgeaxbynef2ikgl2mjxozdennuzioq6i2m.webp"
+    path = "/home/ivy/media/images/wallpapers/red-city.png"
+
+    [wallpaper.monitors.WL-1]
+    path = "/home/ivy/media/images/wallpapers/wallhaven-5gwvz5.jpg"
 
     [wallpaper.monitors.eDP-1]
-    path = "/home/ivy/media/images/wallpapers/bafkreia6j6rjttfeem6wf3mbwgeaxbynef2ikgl2mjxozdennuzioq6i2m.webp"
+    path = "/home/ivy/media/images/wallpapers/red-city.png"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
@@ -351,30 +381,44 @@ display = "text_only"
 max_length = 500
 min_length = 0
 
+[widget.bar]
+type = "raycursive/discord-voice:bar"
+
 [widget.battery]
 hide_when_full = true
 
 [widget.cat]
 audio_spectrum = true
+enabled = false
 scale = 1.1000000000000001
 tappy_mode = true
 type = "noctalia/bongocat:cat"
 
 [widget.media]
+album_art_only = true
+enabled = false
+hide_artist = true
 hide_when_no_media = true
-max_length = 500
+max_length = 180
 
 [widget.network]
+enabled = false
 show_label = false
 show_vpn_label = true
 vpn_status = "both"
 
 [widget.notifications]
+enabled = false
 hide_when_no_unread = true
 
 [widget.tray]
 drawer = true
+enabled = false
 
 [widget.workspaces]
 hide_when_empty = true
+pill_scale = 0.65000000000000002
 show_labels = false
+
+    [widget.workspaces.actions]
+    scroll_left = "plugin noctalia:wallhaven"
