@@ -89,18 +89,10 @@ in
         reverse_proxy elm.${tailnet}:8222
       '';
     };
-
-    virtualHosts."todo.${domain}" = {
-      logFormat = accessLogFormat;
-      extraConfig = ''
-        reverse_proxy elm.${tailnet}:3456
-      '';
-    };
   };
 
-  # nixpkgs' caddy module already sandboxes reasonably (NoNewPrivileges,
-  # PrivateTmp, ProtectHome, capability-scoped to CAP_NET_BIND_SERVICE).
-  # Tighten further since this is the one host exposed to the internet.
+  # nixpkgs' caddy module already sandboxes reasonably
+  # tighten further since this is the one host exposed to the internet.
   systemd.services.caddy.serviceConfig = {
     ProtectSystem = lib.mkForce "strict";
     ProtectKernelTunables = true;
