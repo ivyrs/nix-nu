@@ -16,6 +16,7 @@
     ../../../modules/services/ssh.nix
     ../../../modules/services/sops.nix
     ../../../modules/services/tailscale.nix
+    ../../../modules/services/atuin-sync.nix
   ];
 
   home-manager.users.ivy.imports = [

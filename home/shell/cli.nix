@@ -52,7 +52,7 @@
 
     settings = {
       auto_sync = true;
-      sync_address = "http://elm:8888";
+      sync_address = "http://yew:8888";
 
       search_mode = "fuzzy";
       filter_mode = "global";
