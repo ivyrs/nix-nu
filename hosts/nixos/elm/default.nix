@@ -1,17 +1,9 @@
-{ config, ... }:
+{ ... }:
 {
   imports = [
     ./hardware.nix
 
-    ../../../modules/system/nix
-    ../../../modules/system/nix/nixos.nix
-    ../../../modules/system/locale.nix
-    ../../../modules/system/home-manager.nix
-
-    ../../../modules/users/ivy.nix
-    ../../../modules/services/ssh.nix
-    ../../../modules/services/sops.nix
-    ../../../modules/services/tailscale.nix
+    ../../../modules/roles/server.nix
 
     ../../../modules/services/syncthing.nix
     ../../../modules/services/pocket-id.nix
@@ -28,49 +20,7 @@
     ./home.nix
   ];
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-  };
-
-  networking = {
-    hostName = "elm";
-    networkmanager.enable = true;
-    firewall.enable = true;
-  };
+  networking.hostName = "elm";
 
   system.stateVersion = "25.11";
-
-  sops = {
-    defaultSopsFile = ../../../secrets/elm.yaml;
-
-    secrets.ivy-password-hash = {
-      neededForUsers = true;
-    };
-  };
-
-  security.sudo.wheelNeedsPassword = true;
-
-  users.users.deploy = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICtFawaAWSklr1GGYiBZzGr/ydKSSOatBfGfY72eqKGZ ivy@aspen"
-    ];
-  };
-
-  security.sudo.extraRules = [
-    {
-      users = [ "deploy" ];
-      commands = [
-        {
-          command = "ALL";
-          options = [ "NOPASSWD" ];
-        }
-      ];
-    }
-  ];
-
-  users.users.ivy.hashedPasswordFile = config.sops.secrets.ivy-password-hash.path;
 }
