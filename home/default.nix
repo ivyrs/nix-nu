@@ -29,7 +29,7 @@
     ./gpg.nix
     ./files/syncthing.nix
     ./files/zathura.nix
-    ./vesktop.nix
+    ./chat/vesktop.nix
     ./obsidian.nix
     ./files/nextcloud-client.nix
   ];
