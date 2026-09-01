@@ -160,7 +160,7 @@
   ;; Custom ASCII art banner
   ;; Options: 'official, 'logo, 1-3 (built-in ASCII), or path to file
   ;; e.g. "~/.config/emacs/banner.txt" or (expand-file-name "banner.txt" user-emacs-directory)
-  (setq dashboard-startup-banner 1) ;; Built-in text banner
+  (setq dashboard-startup-banner 2) ;; Built-in text banner
   (setq dashboard-center-content t)
   (setq dashboard-show-shortcuts nil)
   (setq dashboard-items '((recents  . 5)
@@ -268,6 +268,20 @@
 ;; .astro files open in astro-ts-mode.
 (use-package astro-ts-mode
   :mode "\\.astro\\'")
+
+;; Org mode config
+(use-package org-roam
+  :custom
+  (org-roam-directory "~/text/org")
+  :config
+  (org-roam-db-autosync-mode)
+  :general
+  (leader-keys
+    "n" '(:ignore t :which-key "notes")
+    "n " '(keyboard-escape-quit :which-key t)
+    "n f" '(org-roam-node-find :which-key "find note")
+    "n i" '(org-roam-node-insert :which-key "insert link")
+    "n b" '(org-roam-buffer-toggle :which-key "backlinks")))
 
 ;; Markdown mode
 (use-package markdown-mode
