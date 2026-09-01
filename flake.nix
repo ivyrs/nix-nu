@@ -128,6 +128,18 @@
         ];
       };
 
+      nixosConfigurations.scarecrow = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+
+        specialArgs = {
+          inherit inputs;
+        };
+
+        modules = [
+          ./hosts/nixos/scarecrow
+        ];
+      };
+
       deploy = {
         remoteBuild = true;
         sshUser = "deploy";
@@ -158,6 +170,15 @@
           profiles.system = {
             user = "root";
             path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.houseplants;
+          };
+        };
+
+        nodes.scarecrow = {
+          hostname = "scarecrow.ocelot-perch.ts.net";
+
+          profiles.system = {
+            user = "root";
+            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.scarecrow;
           };
         };
       };
