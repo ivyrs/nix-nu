@@ -1,0 +1,64 @@
+# vim: ft=bash
+set -euo pipefail
+
+NOTES_DIR="${COLLEGE_NOTES_DIR:-$HOME/nextcloud/johnny-decimal/20-29 College/22 Notes}"
+
+[[ -d "$NOTES_DIR" ]] || {
+  gum style --foreground 196 "notes directory not found:"
+  gum style --foreground 196 "$NOTES_DIR"
+  exit 1
+}
+
+mapfile -t modules < <(
+  find "$NOTES_DIR" \
+    -mindepth 1 \
+    -maxdepth 1 \
+    -type d \
+    -printf '%f\n' |
+    sort
+)
+
+module="$(
+  printf '%s\n' "${modules[@]}" |
+    gum choose \
+      --header "pick a module"
+)"
+
+[[ -n "$module" ]] || exit 0
+
+title="$(
+  gum input \
+    --header "lesson title" \
+    --placeholder "Types of malware"
+)"
+
+[[ -n "$title" ]] || exit 0
+
+date="$(date +%F)"
+note="$NOTES_DIR/$module/$date - $title.md"
+
+if [[ ! -e "$note" ]]; then
+  cat >"$note" <<EOF
+# $title
+
+## Notes
+
+
+## Look up
+
+- [ ]
+
+## Assignment stuff
+
+
+## Questions
+
+-
+EOF
+fi
+
+gum style \
+  --foreground 212 \
+  "opening ${note#"$NOTES_DIR/"}"
+
+exec nvim "$note"
