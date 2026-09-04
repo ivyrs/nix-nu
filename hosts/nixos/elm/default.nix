@@ -14,6 +14,7 @@
     ../../../modules/services/glance
     ../../../modules/services/irc
     ../../../modules/services/nextcloud.nix
+    ../../../modules/services/owncast.nix
   ];
 
   home-manager.users.ivy.imports = [

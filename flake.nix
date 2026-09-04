@@ -185,30 +185,30 @@
 
       homeModules = {
         shell = ./home/shell;
-        tmux = ./home/tmux;
-        git = ./home/git;
+        tmux = ./home/shell/tmux;
+        git = ./home/dev/git;
 
-        nvim = ./home/neovim/core.nix;
-        nvim-full = ./home/neovim;
+        nvim = ./home/dev/neovim/core.nix;
+        nvim-full = ./home/dev/neovim;
 
-        niri = ./home/niri;
-        ghostty = ./home/ghostty.nix;
-        noctalia = ./home/noctalia;
+        niri = ./home/desktop/niri;
+        ghostty = ./home/desktop/ghostty.nix;
+        noctalia = ./home/desktop/noctalia;
 
         default = {
           imports = [
             ./home/shell
-            ./home/git
-            ./home/neovim/core.nix
-            ./home/tmux
+            ./home/dev/git
+            ./home/dev/neovim/core.nix
+            ./home/shell/tmux
           ];
         };
 
         desktop = {
           imports = [
-            ./home/niri
-            ./home/noctalia
-            ./home/ghostty.nix
+            ./home/desktop/niri
+            ./home/desktop/noctalia
+            ./home/desktop/ghostty.nix
           ];
         };
       };
@@ -225,8 +225,8 @@
             (inputs.nvf.lib.neovimConfiguration {
               inherit pkgs;
               modules = [
-                ./home/neovim/config/core.nix
-                ./home/neovim/config/languages.nix
+                ./home/dev/neovim/config/core.nix
+                ./home/dev/neovim/config/languages.nix
               ];
             }).neovim;
 
@@ -234,7 +234,7 @@
             (inputs.nvf.lib.neovimConfiguration {
               inherit pkgs;
               modules = [
-                ./home/neovim/config/core.nix
+                ./home/dev/neovim/config/core.nix
               ];
             }).neovim;
         }

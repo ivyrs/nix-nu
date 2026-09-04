@@ -4,5 +4,6 @@
     ./calendars.nix
     ./contacts.nix
     ./aerc
+    ./obsidian.nix
   ];
 }

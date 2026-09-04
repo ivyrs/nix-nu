@@ -1,25 +1,30 @@
 { pkgs, ... }:
 
 let
-  cnote = pkgs.writeShellApplication {
-    name = "cnote";
+  mkScript =
+    name: runtimeInputs:
+    pkgs.writeShellApplication {
+      inherit name runtimeInputs;
+      text = builtins.readFile ./${name};
+    };
 
-    runtimeInputs = with pkgs; [
+  cnote = mkScript "cnote" (
+    with pkgs;
+    [
       gum
       findutils
       coreutils
-    ];
+    ]
+  );
 
-    text = builtins.readFile ./cnote;
-  };
-  jrnl = pkgs.writeShellApplication {
-    name = "jrnl";
-    runtimeInputs = with pkgs; [
+  jrnl = mkScript "jrnl" (
+    with pkgs;
+    [
       coreutils
-    ];
-    text = builtins.readFile ./jrnl;
-  };
-in {
+    ]
+  );
+in
+{
   home.packages = [
     cnote
     jrnl

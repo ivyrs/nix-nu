@@ -20,8 +20,8 @@
   # is a read-only symlink into the nix store, so noctalia's write fails with
   # a permission error — these have to be forced empty (or, for zathura,
   # pointed at a sibling file via `include`) to leave the path mutable. See
-  # home/ghostty.nix, home/files/zathura.nix, home/git/lazygit.nix,
-  # home/pim/aerc/default.nix, home/tmux/default.nix and home/shell/cli.nix
+  # home/desktop/ghostty.nix, home/files/zathura.nix, home/dev/git/lazygit.nix,
+  # home/pim/aerc/default.nix, home/shell/tmux/default.nix and home/shell/cli.nix
   # for the mkDefault fallbacks these override.
   programs.ghostty.settings.theme = lib.mkForce "noctalia";
 
@@ -45,7 +45,7 @@
   '';
 
   programs.tmux.extraConfig = lib.mkForce ''
-    ${builtins.readFile ../tmux/tmux.conf}
+    ${builtins.readFile ../../shell/tmux/tmux.conf}
 
     # Source noctalia-generated theme (will override hardcoded colors above)
     source-file -q ~/.config/tmux/noctalia-theme.conf

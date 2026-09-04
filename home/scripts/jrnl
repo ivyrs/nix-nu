@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-JOURNAL_DIR="${JOURNAL_DIR:-$HOME/johnny-decimal/10-19 Life admin/16 Journal}"
+JOURNAL_DIR="${JOURNAL_DIR:-$HOME/nextcloud/johnny-decimal/10-19 Life admin/16 Journal}"
 
 mkdir -p "$JOURNAL_DIR"
 

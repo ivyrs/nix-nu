@@ -47,6 +47,8 @@
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
 
+  zramSwap.enable = true;
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
@@ -63,5 +65,6 @@
     ivy-nextcloud-app-password.owner = "ivy";
     icloud-username.owner = "ivy";
     icloud-password.owner = "ivy";
+    ivy-soju-pass.owner = "ivy";
   };
 }

@@ -10,27 +10,14 @@
   programs.home-manager.enable = true;
 
   imports = [
-    ./shell
-    ./noctalia
-    ./niri
-    ./neovim
-    ./tmux
+    ./chat
+    ./desktop
+    ./dev
     ./files
-    ./git
-    ./pim
     ./media
-    ./emacs
-    ./gram.nix
-    ./media/music.nix
-    ./ghostty.nix
-    ./bitwarden.nix
-    ./firefox.nix
-    ./ai.nix
-    ./gpg.nix
-    ./files/syncthing.nix
-    ./files/zathura.nix
-    ./chat/vesktop.nix
-    ./obsidian.nix
-    ./files/nextcloud-client.nix
+    ./pim
+    ./security
+    ./shell
+    ./shell/tmux
   ];
 }

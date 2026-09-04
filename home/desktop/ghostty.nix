@@ -1,4 +1,3 @@
-# home/ghostty.nix
 { lib, pkgs, ... }:
 
 {

@@ -17,4 +17,4 @@ update:
     nix flake update
 
 sync-noctalia:
-    noctalia config export > ./home/noctalia/noctalia.toml
+    noctalia config export > ./home/desktop/noctalia/noctalia.toml

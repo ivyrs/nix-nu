@@ -89,6 +89,14 @@ in
         reverse_proxy elm.${tailnet}:8222
       '';
     };
+
+    virtualHosts."live.${domain}" = {
+      logFormat = accessLogFormat;
+      extraConfig = ''
+        encode zstd gzip
+        reverse_proxy elm.${tailnet}:8081
+      '';
+    };
   };
 
   # nixpkgs' caddy module already sandboxes reasonably

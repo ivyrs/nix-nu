@@ -20,8 +20,10 @@ mapfile -t modules < <(
 
 module="$(
   printf '%s\n' "${modules[@]}" |
-    gum choose \
-      --header "pick a module"
+    gum filter \
+      --limit 1 \
+      --header "pick a module" \
+      --placeholder "type to search"
 )"
 
 [[ -n "$module" ]] || exit 0

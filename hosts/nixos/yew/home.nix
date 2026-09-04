@@ -2,9 +2,9 @@
 {
   imports = [
     ../../../home/shell
-    ../../../home/git
-    ../../../home/tmux
-    ../../../home/neovim/core.nix
+    ../../../home/dev/git
+    ../../../home/shell/tmux
+    ../../../home/dev/neovim/core.nix
   ];
 
   home = {
