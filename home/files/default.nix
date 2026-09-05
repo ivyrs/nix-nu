@@ -4,5 +4,6 @@
     ./syncthing.nix
     ./zathura.nix
     ./nextcloud-client.nix
+    ./sioyek.nix
   ];
 }
