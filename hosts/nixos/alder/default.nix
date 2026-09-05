@@ -5,6 +5,7 @@
     ./hardware.nix
 
     ../../../modules/hardware/apple-silicon.nix
+    ../../../modules/hardware/peripherals.nix
 
     ../../../modules/system/nix
     ../../../modules/system/nix/nixos.nix
