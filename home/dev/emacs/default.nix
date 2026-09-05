@@ -52,6 +52,7 @@
             tree-sitter-tsx
             tree-sitter-astro
             tree-sitter-css
+            tree-sitter-yaml
           ]
         ))
 

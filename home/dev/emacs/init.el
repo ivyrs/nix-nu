@@ -278,7 +278,7 @@
   :general
   (leader-keys
     "n" '(:ignore t :which-key "notes")
-    "n " '(keyboard-escape-quit :which-key t)
+    "n <escape>" '(keyboard-escape-quit :which-key t)
     "n f" '(org-roam-node-find :which-key "find note")
     "n i" '(org-roam-node-insert :which-key "insert link")
     "n b" '(org-roam-buffer-toggle :which-key "backlinks")))
