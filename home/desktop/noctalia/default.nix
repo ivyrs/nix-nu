@@ -54,6 +54,14 @@
   home.file.".config/noctalia/templates/aerc.conf".source = ./templates/aerc.conf;
   home.file.".config/noctalia/templates/fzf.sh".source = ./templates/fzf.sh;
   home.file.".config/noctalia/templates/tmux.conf".source = ./templates/tmux.conf;
+  # sourced from the musikcube fork itself (contrib/noctalia/) rather than a
+  # local copy -- it's tightly coupled to musikcube's own theme JSON schema,
+  # which lives there. Building this package compiles musikcube from source
+  # via cmake, so it adds real time to `home-manager switch` when this
+  # derivation changes (nothing to do with theme/wallpaper changes, which
+  # noctalia applies live without touching this input at all).
+  home.file.".config/noctalia/templates/musikcube-theme.json".source =
+    "${inputs.musikcube.packages.${pkgs.system}.default}/share/noctalia-templates/musikcube/musikcube-theme.json";
 
   # neovim: unlike the apps above, nvf never touches ~/.config/nvim at
   # runtime (it wraps a fully self-contained nix-store binary — no

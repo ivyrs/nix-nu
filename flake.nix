@@ -42,6 +42,14 @@
     # wallpaper engine
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
 
+    # terminal-based music player/library, pointed at Navidrome via the
+    # subsonicsource plugin. Feeds the noctalia theme template in
+    # home/desktop/noctalia.
+    musikcube = {
+      url = "github:ivyrs/musikcube2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nvf.url = "github:NotAShelf/nvf/v26.07";
 
     # format all the things
