@@ -1,4 +1,4 @@
-{ ... }:
+{ metadata, ... }:
 
 {
   imports = [
@@ -29,13 +29,13 @@
     ../../../modules/system/home-manager.nix
   ];
 
-  home-manager.users.ivy.imports = [
+  home-manager.users.${metadata.user.username}.imports = [
     ./home.nix
     ../../../home
   ];
 
   networking = {
-    hostName = "alder";
+    hostName = metadata.hosts.alder.name;
 
     networkmanager = {
       enable = true;
@@ -61,11 +61,11 @@
 
   sops.defaultSopsFile = ../../../secrets/alder.yaml;
   sops.secrets = {
-    aerc-fastmail-password.owner = "ivy";
-    gmail-app-password.owner = "ivy";
-    ivy-nextcloud-app-password.owner = "ivy";
-    icloud-username.owner = "ivy";
-    icloud-password.owner = "ivy";
-    ivy-soju-pass.owner = "ivy";
+    aerc-fastmail-password.owner = metadata.user.username;
+    gmail-app-password.owner = metadata.user.username;
+    ivy-nextcloud-app-password.owner = metadata.user.username;
+    icloud-username.owner = metadata.user.username;
+    icloud-password.owner = metadata.user.username;
+    ivy-soju-pass.owner = metadata.user.username;
   };
 }

@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ metadata, pkgs, ... }:
 
 {
-  users.users.ivy = {
+  users.users.${metadata.user.username} = {
     isNormalUser = true;
 
     extraGroups = [
@@ -13,7 +13,7 @@
 
     # TODO: add alder's key back here
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICtFawaAWSklr1GGYiBZzGr/ydKSSOatBfGfY72eqKGZ ivy@aspen"
+      "${metadata.user.sshKeys.aspen} ${metadata.user.username}@${metadata.hosts.aspen.name}"
     ];
   };
 

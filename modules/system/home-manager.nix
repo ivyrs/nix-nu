@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, metadata, ... }:
 
 {
   imports = [
@@ -10,7 +10,7 @@
     useUserPackages = true;
 
     extraSpecialArgs = {
-      inherit inputs;
+      inherit inputs metadata;
     };
 
     backupFileExtension = "hm-backup";

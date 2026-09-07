@@ -1,4 +1,4 @@
-{ ... }:
+{ metadata, ... }:
 {
   imports = [
     ./hardware.nix
@@ -9,12 +9,12 @@
     ../../../modules/services/xmpp
   ];
 
-  home-manager.users.ivy.imports = [
+  home-manager.users.${metadata.user.username}.imports = [
     ./home.nix
   ];
 
   networking = {
-    hostName = "houseplants";
+    hostName = metadata.hosts.houseplants.name;
     useDHCP = true;
 
     # dhcpcd doesn't reliably populate /etc/resolv.conf before tailscaled
@@ -41,10 +41,10 @@
   system.stateVersion = "25.11";
 
   security.acme.certs = {
-    "ivy.rs" = { };
-    "houseplants.cloud" = {
-      extraDomainNames = [ "conference.houseplants.cloud" ];
+    ${metadata.domains.personal} = { };
+    ${metadata.domains.services} = {
+      extraDomainNames = [ "conference.${metadata.domains.services}" ];
     };
-    "xmpp.houseplants.cloud" = { };
+    "xmpp.${metadata.domains.services}" = { };
   };
 }

@@ -1,14 +1,19 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  metadata,
+  ...
+}:
 
 {
   services.ergochat = {
     enable = true;
 
     settings = {
-      network.name = "ocelot-perch.ts.net";
+      network.name = metadata.tailnet.domain;
 
       server = {
-        name = "irc.ocelot-perch.ts.net";
+        name = "irc.${metadata.tailnet.domain}";
         listeners = lib.mkForce {
           "127.0.0.1:6667" = { };
         };

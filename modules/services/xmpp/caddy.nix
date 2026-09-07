@@ -1,9 +1,9 @@
-{ lib, ... }:
+{ lib, metadata, ... }:
 
 # XMPP-related Caddy reverse proxies for HTTP file upload and other HTTP endpoints
 
 let
-  domain = "houseplants.cloud";
+  domain = metadata.domains.services;
 
   accessLogFormat = ''
     output stdout

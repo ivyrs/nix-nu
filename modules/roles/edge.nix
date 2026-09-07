@@ -1,4 +1,9 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  metadata,
+  ...
+}:
 {
   imports = [
     ./server.nix
@@ -26,7 +31,7 @@
   security.acme = {
     acceptTerms = true;
     defaults = {
-      email = "ivy@ivy.rs";
+      email = metadata.user.emails.primary;
       dnsProvider = "desec";
       environmentFile = config.sops.secrets.desec-token.path;
     };

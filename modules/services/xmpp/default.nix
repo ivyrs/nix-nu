@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  metadata,
   pkgs,
   ...
 }:
@@ -14,7 +15,7 @@
     package = pkgs.prosody;
 
     # Admin JID
-    admins = [ "ivy@ivy.rs" ];
+    admins = [ metadata.user.emails.primary ];
 
     # Disable public registration
     allowRegistration = false;
@@ -26,15 +27,15 @@
 
     # SSL/TLS configuration - certificates managed by ACME/Caddy
     ssl = {
-      key = "/var/lib/acme/xmpp.houseplants.cloud/key.pem";
-      cert = "/var/lib/acme/xmpp.houseplants.cloud/fullchain.pem";
+      key = "/var/lib/acme/xmpp.${metadata.domains.services}/key.pem";
+      cert = "/var/lib/acme/xmpp.${metadata.domains.services}/fullchain.pem";
     };
 
     # HTTP file upload configuration
     httpFileShare = {
       enable = true;
-      domain = "upload.houseplants.cloud";
-      http_external_url = "https://upload.houseplants.cloud";
+      domain = "upload.${metadata.domains.services}";
+      http_external_url = "https://upload.${metadata.domains.services}";
       uploadFileSizeLimit = 10485760; # 10 MB
       uploadExpireAfter = "7d"; # Files expire after 7 days
     };
@@ -78,21 +79,21 @@
 
     # VirtualHosts
     virtualHosts = {
-      "ivy.rs" = {
+      ${metadata.domains.personal} = {
         enabled = true;
-        domain = "ivy.rs";
+        domain = metadata.domains.personal;
         ssl = {
-          key = "/var/lib/acme/ivy.rs/key.pem";
-          cert = "/var/lib/acme/ivy.rs/fullchain.pem";
+          key = "/var/lib/acme/${metadata.domains.personal}/key.pem";
+          cert = "/var/lib/acme/${metadata.domains.personal}/fullchain.pem";
         };
       };
 
-      "houseplants.cloud" = {
+      ${metadata.domains.services} = {
         enabled = true;
-        domain = "houseplants.cloud";
+        domain = metadata.domains.services;
         ssl = {
-          key = "/var/lib/acme/houseplants.cloud/key.pem";
-          cert = "/var/lib/acme/houseplants.cloud/fullchain.pem";
+          key = "/var/lib/acme/${metadata.domains.services}/key.pem";
+          cert = "/var/lib/acme/${metadata.domains.services}/fullchain.pem";
         };
       };
     };
@@ -100,7 +101,7 @@
     # Multi-user chat configuration
     muc = [
       {
-        domain = "conference.houseplants.cloud";
+        domain = "conference.${metadata.domains.services}";
       }
     ];
 
@@ -120,13 +121,13 @@
 
       -- Contact addresses (XEP-0157)
       contact_info = {
-        abuse = { "mailto:webmistress@houseplants.cloud" };
-        admin = { "mailto:webmistress@houseplants.cloud" };
+        abuse = { "mailto:webmistress@${metadata.domains.services}" };
+        admin = { "mailto:webmistress@${metadata.domains.services}" };
       }
 
       -- Consider proxy for older clients (optional)
-      -- Component "proxy.houseplants.cloud" "proxy65"
-      --   proxy65_address = "xmpp.houseplants.cloud"
+      -- Component "proxy.${metadata.domains.services}" "proxy65"
+      --   proxy65_address = "xmpp.${metadata.domains.services}"
       --   proxy65_ports = { 5000 }
     '';
   };

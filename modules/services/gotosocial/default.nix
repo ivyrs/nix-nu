@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  metadata,
   pkgs,
   ...
 }:
@@ -22,9 +23,9 @@ in
     environmentFile = config.sops.secrets.gotosocial-env.path;
 
     settings = {
-      host = "fedi.ivy.rs";
-      account-domain = "ivy.rs";
-      landing-page-user = "ivy";
+      host = "fedi.${metadata.domains.personal}";
+      account-domain = metadata.domains.personal;
+      landing-page-user = metadata.user.username;
 
       bind-address = "0.0.0.0";
       port = 9400;
@@ -41,12 +42,12 @@ in
 
       web-asset-base-dir = "${themedAssets}/";
 
-      trusted-proxies = [ "100.64.20.1" ];
+      trusted-proxies = [ metadata.tailnet.ingressProxyIp ];
       letsencrypt-enabled = false;
 
       oidc-enabled = true;
       oidc-idp-name = "houseplantsID";
-      oidc-issuer = "https://id.houseplants.cloud";
+      oidc-issuer = "https://id.${metadata.domains.services}";
       oidc-client-id = "6aa09792-1602-405a-a7ed-adcdc4b3883c";
     };
   };

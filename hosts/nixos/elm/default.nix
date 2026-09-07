@@ -1,4 +1,4 @@
-{ ... }:
+{ metadata, ... }:
 {
   imports = [
     ./hardware.nix
@@ -17,11 +17,11 @@
     ../../../modules/services/owncast.nix
   ];
 
-  home-manager.users.ivy.imports = [
+  home-manager.users.${metadata.user.username}.imports = [
     ./home.nix
   ];
 
-  networking.hostName = "elm";
+  networking.hostName = metadata.hosts.elm.name;
 
   system.stateVersion = "25.11";
 }

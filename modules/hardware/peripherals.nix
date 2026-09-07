@@ -5,7 +5,8 @@ let
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
-in {
+in
+{
   services.udev.packages = [
     unstable.openlogi
     unstable.zapp

@@ -1,7 +1,12 @@
-{ pkgs, lib, ... }:
+{
+  lib,
+  metadata,
+  pkgs,
+  ...
+}:
 let
-  domain = "houseplants.cloud";
-  tailnet = "ocelot-perch.ts.net";
+  domain = metadata.domains.services;
+  tailnet = metadata.tailnet.domain;
 
   # NixOS' caddy module defaults each vhost's own `logFormat` to a
   # per-domain file under /var/log/caddy (no rotation). Override it
@@ -18,13 +23,15 @@ let
 
   staticSite = pkgs.runCommand "houseplants-static-site" { } ''
     mkdir -p $out
-    cp ${./houseplants-index.html} $out/index.html
+    substitute ${./houseplants-index.html} $out/index.html \
+      --replace-fail '@servicesDomain@' '${metadata.domains.services}' \
+      --replace-fail '@personalDomain@' '${metadata.domains.personal}'
   '';
 in
 {
   services.caddy = {
     enable = true;
-    email = "ivy@ivy.rs";
+    email = metadata.user.emails.primary;
 
     logFormat = accessLogFormat;
 
@@ -36,11 +43,11 @@ in
       '';
     };
 
-    virtualHosts."fedi.ivy.rs" = {
+    virtualHosts."fedi.${metadata.domains.personal}" = {
       logFormat = accessLogFormat;
       extraConfig = ''
         encode zstd gzip
-        reverse_proxy elm.${tailnet}:9400 {
+        reverse_proxy ${metadata.hosts.elm.name}.${tailnet}:9400 {
           flush_interval -1
         }
       '';
@@ -58,35 +65,35 @@ in
       logFormat = accessLogFormat;
       extraConfig = ''
         header Strict-Transport-Security "max-age=15552000"
-        reverse_proxy elm.${tailnet}:80
+        reverse_proxy ${metadata.hosts.elm.name}.${tailnet}:80
       '';
     };
 
     virtualHosts."git.${domain}" = {
       logFormat = accessLogFormat;
       extraConfig = ''
-        reverse_proxy elm.${tailnet}:3001
+        reverse_proxy ${metadata.hosts.elm.name}.${tailnet}:3001
       '';
     };
 
     virtualHosts."rss.${domain}" = {
       logFormat = accessLogFormat;
       extraConfig = ''
-        reverse_proxy elm.${tailnet}:3000
+        reverse_proxy ${metadata.hosts.elm.name}.${tailnet}:3000
       '';
     };
 
     virtualHosts."id.${domain}" = {
       logFormat = accessLogFormat;
       extraConfig = ''
-        reverse_proxy elm.${tailnet}:1411
+        reverse_proxy ${metadata.hosts.elm.name}.${tailnet}:1411
       '';
     };
 
     virtualHosts."vault.${domain}" = {
       logFormat = accessLogFormat;
       extraConfig = ''
-        reverse_proxy elm.${tailnet}:8222
+        reverse_proxy ${metadata.hosts.elm.name}.${tailnet}:8222
       '';
     };
 
@@ -94,7 +101,7 @@ in
       logFormat = accessLogFormat;
       extraConfig = ''
         encode zstd gzip
-        reverse_proxy elm.${tailnet}:8081
+        reverse_proxy ${metadata.hosts.elm.name}.${tailnet}:8081
       '';
     };
   };

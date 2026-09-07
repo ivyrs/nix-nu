@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  metadata,
   pkgs,
   ...
 }:
@@ -15,11 +16,11 @@
 
     settings = {
       server = {
-        DOMAIN = "git.houseplants.cloud";
-        ROOT_URL = "https://git.houseplants.cloud/";
+        DOMAIN = "git.${metadata.domains.services}";
+        ROOT_URL = "https://git.${metadata.domains.services}/";
         HTTP_PORT = 3001;
 
-        SSH_DOMAIN = "elm.ocelot-perch.ts.net";
+        SSH_DOMAIN = "${metadata.hosts.elm.name}.${metadata.tailnet.domain}";
         SSH_PORT = 2222;
         START_SSH_SERVER = true;
       };
@@ -37,7 +38,7 @@
 
       security = {
         REVERSE_PROXY_LIMIT = 1;
-        REVERSE_PROXY_TRUSTED_PROXIES = "100.64.20.1";
+        REVERSE_PROXY_TRUSTED_PROXIES = metadata.tailnet.ingressProxyIp;
       };
 
       oauth2_client = {

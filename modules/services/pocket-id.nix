@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, metadata, ... }:
 {
   services.pocket-id = {
     enable = true;
@@ -6,7 +6,7 @@
     # package = null;
 
     settings = {
-      APP_URL = "https://id.houseplants.cloud";
+      APP_URL = "https://id.${metadata.domains.services}";
       TRUST_PROXY = true;
     };
 

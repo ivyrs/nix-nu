@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, metadata, ... }:
 
 {
   services.glance = {
@@ -31,8 +31,9 @@
                 (import ./_clock-weather.nix {
                   cityFile = config.sops.secrets.glance-city.path;
                 })
-                (import ./_monitor-sites.nix)
+                (import ./_monitor-sites.nix { inherit metadata; })
                 (import ./_server-stats.nix {
+                  inherit metadata;
                   tokenFile = config.sops.secrets.glance-agent-token.path;
                 })
                 (import ./_bookmarks.nix)

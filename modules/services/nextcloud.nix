@@ -1,16 +1,21 @@
-{ config, pkgs, ... }:
+{
+  config,
+  metadata,
+  pkgs,
+  ...
+}:
 
 {
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud34;
-    hostName = "cloud.houseplants.cloud";
+    hostName = "cloud.${metadata.domains.services}";
 
     database.createLocally = true;
 
     config = {
       dbtype = "pgsql";
-      adminuser = "ivy";
+      adminuser = metadata.user.username;
       adminpassFile = config.sops.secrets.nextcloud-admin-password.path;
     };
 
@@ -24,18 +29,18 @@
       default_phone_region = "GB";
 
       trusted_domains = [
-        "nc.houseplants.cloud"
-        "elm.ocelot-perch.ts.net"
+        "nc.${metadata.domains.services}"
+        "${metadata.hosts.elm.name}.${metadata.tailnet.domain}"
       ];
-      trusted_proxies = [ "100.64.20.1" ];
+      trusted_proxies = [ metadata.tailnet.ingressProxyIp ];
 
       mail_smtpmode = "smtp";
       mail_smtpauth = true;
       mail_smtphost = "smtp.fastmail.com";
       mail_smtpport = 587;
-      mail_smtpname = "ivy@ivy.rs";
+      mail_smtpname = metadata.user.emails.primary;
       mail_from_address = "cloud";
-      mail_domain = "houseplants.cloud";
+      mail_domain = metadata.domains.services;
     };
 
     secrets.mail_smtppassword = config.sops.secrets.nextcloud-smtp-password.path;
@@ -61,7 +66,7 @@
         ${config.services.nextcloud.occ}/bin/nextcloud-occ user_oidc:provider houseplants \
           --clientid="f6af92ea-3466-4a98-bd68-528446898f60" \
           --clientsecret-file="${config.sops.secrets.nextcloud-oidc-client-secret.path}" \
-          --discoveryuri="https://id.houseplants.cloud/.well-known/openid-configuration" \
+          --discoveryuri="https://id.${metadata.domains.services}/.well-known/openid-configuration" \
           --scope="openid email profile" \
           --unique-uid=0 \
           --mapping-uid=preferred_username
@@ -111,7 +116,7 @@
     autoStart = true;
     extraOptions = [ "--network=host" ];
     environmentFiles = [ config.sops.secrets.nextcloud-harp-shared-key-env.path ];
-    environment.NC_INSTANCE_URL = "http://elm.ocelot-perch.ts.net";
+    environment.NC_INSTANCE_URL = "http://${metadata.hosts.elm.name}.${metadata.tailnet.domain}";
 
     volumes = [
       "/var/run/docker.sock:/var/run/docker.sock"
@@ -155,7 +160,7 @@
       ExecStart = pkgs.writeShellScript "nextcloud-appapi-harp-register" ''
         HP_SHARED_KEY="$(cut -d= -f2- < "$CREDENTIALS_DIRECTORY/harp_shared_key_env")"
         ${config.services.nextcloud.occ}/bin/nextcloud-occ app:enable app_api
-        ${config.services.nextcloud.occ}/bin/nextcloud-occ app_api:daemon:register harp1 "HaRP" docker-install http localhost:8780 "http://elm.ocelot-perch.ts.net" \
+        ${config.services.nextcloud.occ}/bin/nextcloud-occ app_api:daemon:register harp1 "HaRP" docker-install http localhost:8780 "http://${metadata.hosts.elm.name}.${metadata.tailnet.domain}" \
           --harp \
           --harp_frp_address "localhost:8782" \
           --harp_shared_key "$HP_SHARED_KEY" \

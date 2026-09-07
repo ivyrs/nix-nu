@@ -1,4 +1,4 @@
-{ ... }:
+{ metadata, ... }:
 {
   imports = [
     ./hardware.nix
@@ -7,15 +7,15 @@
     ../../../modules/services/atuin-sync.nix
   ];
 
-  home-manager.users.ivy.imports = [
+  home-manager.users.${metadata.user.username}.imports = [
     ./home.nix
   ];
 
-  networking.hostName = "yew";
+  networking.hostName = metadata.hosts.yew.name;
 
   system.stateVersion = "26.05";
 
-  users.users.ivy.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdNudbGaj76Gu5Kn9bKsTCb8cAMPM0lg/hS6TriaWY7 ivy@alder"
+  users.users.${metadata.user.username}.openssh.authorizedKeys.keys = [
+    "${metadata.user.sshKeys.alder} ${metadata.user.username}@${metadata.hosts.alder.name}"
   ];
 }

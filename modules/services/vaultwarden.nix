@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, metadata, ... }:
 
 {
   services.vaultwarden = {
@@ -6,21 +6,21 @@
     dbBackend = "sqlite";
 
     config = {
-      DOMAIN = "https://vault.houseplants.cloud";
+      DOMAIN = "https://vault.${metadata.domains.services}";
       SIGNUPS_ALLOWED = false;
       ROCKET_ADDRESS = "0.0.0.0";
       ROCKET_PORT = 8222;
 
       SSO_ENABLED = true;
-      SSO_AUTHORITY = "https://id.houseplants.cloud";
+      SSO_AUTHORITY = "https://id.${metadata.domains.services}";
       SSO_CLIENT_ID = "91751e42-c596-4ef1-ba94-782e52fed1bc";
       SSO_PKCE = true;
 
       SMTP_HOST = "smtp.fastmail.com";
       SMTP_SECURITY = "starttls";
       SMTP_PORT = 587;
-      SMTP_USERNAME = "ivy@ivy.rs";
-      SMTP_FROM = "vault@houseplants.cloud";
+      SMTP_USERNAME = metadata.user.emails.primary;
+      SMTP_FROM = "vault@${metadata.domains.services}";
       SMTP_FROM_NAME = "Vaultwarden";
     };
 

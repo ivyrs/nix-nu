@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  metadata,
   ...
 }:
 
@@ -31,7 +32,7 @@
   programs.nh = {
     enable = true;
 
-    flake = "/home/ivy/nix-nu";
+    flake = "${metadata.user.homeDirectory}/nix-nu";
 
     clean = {
       enable = true;

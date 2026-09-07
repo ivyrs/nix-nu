@@ -1,3 +1,5 @@
+{ metadata }:
+
 {
   type = "monitor";
   cache = "1m";
@@ -6,32 +8,32 @@
   sites = [
     {
       title = "nextcloud";
-      url = "https://cloud.houseplants.cloud";
+      url = "https://cloud.${metadata.domains.services}";
       icon = "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/nextcloud.png";
     }
     {
       title = "syncthing";
-      url = "http://elm.ocelot-perch.ts.net:8384";
+      url = "http://${metadata.hosts.elm.name}.${metadata.tailnet.domain}:8384";
       icon = "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/syncthing.png";
     }
     {
       title = "vaultwarden";
-      url = "https://vault.houseplants.cloud";
+      url = "https://vault.${metadata.domains.services}";
       icon = "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/vaultwarden.png";
     }
     {
       title = "RSS";
-      url = "https://rss.houseplants.cloud";
+      url = "https://rss.${metadata.domains.services}";
       icon = "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/miniflux.png";
     }
     {
       title = "houseplantsID";
-      url = "https://id.houseplants.cloud";
+      url = "https://id.${metadata.domains.services}";
       icon = "/assets/houseplants-logo.png";
     }
     {
       title = "forgejo";
-      url = "https://git.houseplants.cloud";
+      url = "https://git.${metadata.domains.services}";
       icon = "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/forgejo.png";
     }
     {

@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, metadata, ... }:
 
 let
   devices = {
@@ -27,7 +27,7 @@ in
 
       gui = {
         address = "0.0.0.0:8384";
-        user = "ivy";
+        user = metadata.user.username;
       };
 
       devices = {

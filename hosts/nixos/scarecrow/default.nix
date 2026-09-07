@@ -1,4 +1,9 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  metadata,
+  ...
+}:
 {
   imports = [
     ./hardware.nix
@@ -17,7 +22,7 @@
     ../../../modules/services/uptime-kuma.nix
   ];
 
-  home-manager.users.ivy.imports = [
+  home-manager.users.${metadata.user.username}.imports = [
     ./home.nix
   ];
 
@@ -27,7 +32,7 @@
   };
 
   networking = {
-    hostName = "scarecrow";
+    hostName = metadata.hosts.scarecrow.name;
     useDHCP = true;
 
     firewall = {
@@ -53,7 +58,7 @@
     extraGroups = [ "wheel" ];
 
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICtFawaAWSklr1GGYiBZzGr/ydKSSOatBfGfY72eqKGZ ivy@aspen"
+      "${metadata.user.sshKeys.aspen} ${metadata.user.username}@${metadata.hosts.aspen.name}"
     ];
   };
 
@@ -85,23 +90,24 @@
     };
   };
 
-  users.users.ivy.hashedPasswordFile = config.sops.secrets.ivy-password-hash.path;
+  users.users.${metadata.user.username}.hashedPasswordFile =
+    config.sops.secrets.ivy-password-hash.path;
 
   security.acme = {
     acceptTerms = true;
     defaults = {
-      email = "ivy@ivy.rs";
+      email = metadata.user.emails.primary;
       dnsProvider = "desec";
       environmentFile = config.sops.secrets.desec-token.path;
     };
-    certs."status.houseplants.cloud" = { };
+    certs."status.${metadata.domains.services}" = { };
   };
 
   services.caddy = {
     enable = true;
-    email = "ivy@ivy.rs";
+    email = metadata.user.emails.primary;
 
-    virtualHosts."status.houseplants.cloud" = {
+    virtualHosts."status.${metadata.domains.services}" = {
       extraConfig = ''
         reverse_proxy 127.0.0.1:3001
       '';

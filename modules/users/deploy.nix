@@ -1,4 +1,4 @@
-{ ... }:
+{ metadata, ... }:
 
 {
   users.users.deploy = {
@@ -6,7 +6,7 @@
     extraGroups = [ "wheel" ];
 
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICtFawaAWSklr1GGYiBZzGr/ydKSSOatBfGfY72eqKGZ ivy@aspen"
+      "${metadata.user.sshKeys.aspen} ${metadata.user.username}@${metadata.hosts.aspen.name}"
     ];
   };
 

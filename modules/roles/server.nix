@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  metadata,
+  ...
+}:
 {
   imports = [
     ../system/nix
@@ -30,5 +35,6 @@
     secrets.ivy-password-hash.neededForUsers = true;
   };
 
-  users.users.ivy.hashedPasswordFile = config.sops.secrets.ivy-password-hash.path;
+  users.users.${metadata.user.username}.hashedPasswordFile =
+    config.sops.secrets.ivy-password-hash.path;
 }
