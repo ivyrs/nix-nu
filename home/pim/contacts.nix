@@ -1,4 +1,4 @@
-{ ... }:
+{ metadata, ... }:
 
 {
   accounts.contact = {
@@ -7,8 +7,8 @@
     accounts.nextcloud = {
       remote = {
         type = "carddav";
-        url = "https://cloud.houseplants.cloud/remote.php/dav/";
-        userName = "ivy";
+        url = "https://cloud.${metadata.domains.services}/remote.php/dav/";
+        userName = metadata.user.username;
         passwordCommand = [
           "cat"
           "/run/secrets/ivy-nextcloud-app-password"

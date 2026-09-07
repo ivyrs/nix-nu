@@ -1,4 +1,4 @@
-{ ... }:
+{ metadata, ... }:
 
 {
   programs = {
@@ -19,8 +19,8 @@
         primary = true;
         remote = {
           type = "caldav";
-          url = "https://cloud.houseplants.cloud/remote.php/dav/calendars/ivy/";
-          userName = "ivy";
+          url = "https://cloud.${metadata.domains.services}/remote.php/dav/calendars/${metadata.user.username}/";
+          userName = metadata.user.username;
           passwordCommand = [
             "cat"
             "/run/secrets/ivy-nextcloud-app-password"

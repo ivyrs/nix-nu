@@ -1,4 +1,5 @@
 {
+  metadata,
   pkgs,
   ...
 }:
@@ -27,8 +28,8 @@
 
     settings = {
       user = {
-        name = "ivy forever";
-        email = "ivy@ivy.rs";
+        name = metadata.user.fullName;
+        email = metadata.user.emails.primary;
       };
 
       init.defaultBranch = "main";

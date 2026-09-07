@@ -49,6 +49,11 @@
       url = "github:ivyrs/musikcube2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Helium browser (prebuilt upstream Linux release, repackaged for Nix)
+    helium-browser = {
+      url = "github:oxcl/nix-flake-helium-browser";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nvf.url = "github:NotAShelf/nvf/v26.07";
 
@@ -62,6 +67,9 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # oh-my-pi (omp), a batteries-included coding agent harness
+    oh-my-pi.url = "github:can1357/oh-my-pi";
   };
 
   outputs =
@@ -72,6 +80,8 @@
       ...
     }:
     let
+      metadata = import ./metadata.nix;
+
       systems = [
         "aarch64-linux"
         "aarch64-darwin"
@@ -88,11 +98,13 @@
       );
     in
     {
+      inherit metadata;
+
       nixosConfigurations.alder = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
+        system = metadata.hosts.alder.system;
 
         specialArgs = {
-          inherit inputs;
+          inherit inputs metadata;
         };
 
         modules = [
@@ -101,10 +113,10 @@
       };
 
       nixosConfigurations.elm = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        system = metadata.hosts.elm.system;
 
         specialArgs = {
-          inherit inputs;
+          inherit inputs metadata;
         };
 
         modules = [
@@ -113,10 +125,10 @@
       };
 
       nixosConfigurations.yew = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        system = metadata.hosts.yew.system;
 
         specialArgs = {
-          inherit inputs;
+          inherit inputs metadata;
         };
 
         modules = [
@@ -125,10 +137,10 @@
       };
 
       nixosConfigurations.houseplants = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
+        system = metadata.hosts.houseplants.system;
 
         specialArgs = {
-          inherit inputs;
+          inherit inputs metadata;
         };
 
         modules = [
@@ -137,10 +149,10 @@
       };
 
       nixosConfigurations.scarecrow = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        system = metadata.hosts.scarecrow.system;
 
         specialArgs = {
-          inherit inputs;
+          inherit inputs metadata;
         };
 
         modules = [
@@ -155,7 +167,7 @@
         magicRollback = true;
 
         nodes.elm = {
-          hostname = "elm.ocelot-perch.ts.net";
+          hostname = "${metadata.hosts.elm.name}.${metadata.tailnet.domain}";
 
           profiles.system = {
             user = "root";
@@ -164,7 +176,7 @@
         };
 
         nodes.yew = {
-          hostname = "yew.ocelot-perch.ts.net";
+          hostname = "${metadata.hosts.yew.name}.${metadata.tailnet.domain}";
 
           profiles.system = {
             user = "root";
@@ -173,7 +185,7 @@
         };
 
         nodes.houseplants = {
-          hostname = "houseplants.ocelot-perch.ts.net";
+          hostname = "${metadata.hosts.houseplants.name}.${metadata.tailnet.domain}";
 
           profiles.system = {
             user = "root";
@@ -182,7 +194,7 @@
         };
 
         nodes.scarecrow = {
-          hostname = "scarecrow.ocelot-perch.ts.net";
+          hostname = "${metadata.hosts.scarecrow.name}.${metadata.tailnet.domain}";
 
           profiles.system = {
             user = "root";
@@ -192,18 +204,28 @@
       };
 
       homeModules = {
-        shell = ./home/shell;
+        shell = {
+          imports = [ ./home/shell ];
+          _module.args = { inherit metadata; };
+        };
         tmux = ./home/shell/tmux;
-        git = ./home/dev/git;
+        git = {
+          imports = [ ./home/dev/git ];
+          _module.args = { inherit metadata; };
+        };
 
         nvim = ./home/dev/neovim/core.nix;
         nvim-full = ./home/dev/neovim;
 
         niri = ./home/desktop/niri;
         ghostty = ./home/desktop/ghostty.nix;
-        noctalia = ./home/desktop/noctalia;
+        noctalia = {
+          imports = [ ./home/desktop/noctalia ];
+          _module.args = { inherit metadata; };
+        };
 
         default = {
+          _module.args = { inherit metadata; };
           imports = [
             ./home/shell
             ./home/dev/git
@@ -213,6 +235,7 @@
         };
 
         desktop = {
+          _module.args = { inherit metadata; };
           imports = [
             ./home/desktop/niri
             ./home/desktop/noctalia

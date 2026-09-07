@@ -6,7 +6,8 @@ let
 
     config.allowUnfree = true;
   };
-in {
+in
+{
   home.packages = with packages; [
     zapp # keyboard flasher
     openlogi # options+ replacement for mouse

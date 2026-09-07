@@ -1,0 +1,49 @@
+# vim: ft=bash
+set -euo pipefail
+
+status="$(tailscale status --json)"
+
+current="$(
+  jq -r '
+    .Peer[]?
+    | select(.ExitNode == true)
+    | (.DNSName // .HostName)
+    | sub("\\.$"; "")
+  ' <<<"$status"
+)"
+
+mapfile -t nodes < <(
+  jq -r '
+    .Peer[]?
+    | select(.ExitNodeOption == true)
+    | (.DNSName // .HostName)
+    | sub("\\.$"; "")
+  ' <<<"$status" |
+    sort
+)
+
+options=("none")
+options+=("${nodes[@]}")
+
+header="pick an exit node"
+if [[ -n "$current" ]]; then
+  header="pick an exit node (currently via $current)"
+fi
+
+choice="$(
+  printf '%s\n' "${options[@]}" |
+    gum filter \
+      --limit 1 \
+      --header "$header" \
+      --placeholder "type to search"
+)"
+
+[[ -n "$choice" ]] || exit 0
+
+if [[ "$choice" == "none" ]]; then
+  sudo tailscale set --exit-node=
+  gum style --foreground 212 "exit node disabled"
+else
+  sudo tailscale set --exit-node="$choice" --exit-node-allow-lan-access=true
+  gum style --foreground 212 "exit node set to $choice"
+fi

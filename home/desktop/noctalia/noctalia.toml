@@ -40,9 +40,9 @@ enabled = true
     name = "Houseplants"
     password_file = "/run/secrets/ivy-nextcloud-app-password"
     provider = "custom"
-    server_url = "https://nc.houseplants.cloud/remote.php/dav"
+    server_url = "https://nc.@servicesDomain@/remote.php/dav"
     type = "caldav"
-    username = "ivy"
+    username = "@username@"
 
 [control_center]
 hidden_tabs = [ "audio", "monitor", "screen-time" ]
@@ -240,7 +240,7 @@ telemetry_enabled = true
     wallpaper_placement = "floating"
 
     [shell.screenshot]
-    directory = "/home/ivy/media/screenshots"
+    directory = "@home@/media/screenshots"
     pipe_command = "swappy -f -"
     pipe_to_command = true
 
@@ -296,11 +296,10 @@ wallpaper_scheme = "m3-content"
     [theme.templates]
     builtin_ids = [ "btop", "emacs", "gtk3", "gtk4", "ghostty", "kcolorscheme", "niri", "qt" ]
     community_ids = [
-        "opencode",
         "pi-agent",
         "feishin",
         "pywalfox-beta4",
-        "discord",
+        "discord_midnight_vesktop",
         "nchat",
         "senpai",
         "obsidian",
@@ -313,6 +312,14 @@ wallpaper_scheme = "m3-content"
         [theme.templates.user.aerc]
         input_path = "$XDG_CONFIG_HOME/noctalia/templates/aerc.conf"
         output_path = "$XDG_CONFIG_HOME/aerc/stylesets/noctalia"
+
+        [theme.templates.user.opencode]
+        input_path = "$XDG_CONFIG_HOME/noctalia/templates/opencode.json"
+        output_path = "$XDG_CONFIG_HOME/opencode/themes/matugen.json"
+
+        [theme.templates.user.atuin]
+        input_path = "$XDG_CONFIG_HOME/noctalia/templates/atuin.toml"
+        output_path = "$XDG_CONFIG_HOME/atuin/themes/noctalia.toml"
 
         [theme.templates.user.fzf]
         input_path = "$XDG_CONFIG_HOME/noctalia/templates/fzf.sh"
@@ -331,52 +338,56 @@ wallpaper_scheme = "m3-content"
         input_path = "$XDG_CONFIG_HOME/noctalia/templates/tmux.conf"
         output_path = "$XDG_CONFIG_HOME/tmux/noctalia-theme.conf"
 
+        [theme.templates.user.ncspot]
+        input_path = "$XDG_CONFIG_HOME/noctalia/templates/ncspot.toml"
+        output_path = "$XDG_CONFIG_HOME/ncspot/config.toml"
+
 [wallpaper]
-directory = "/home/ivy/media/images/wallpapers"
+directory = "@home@/media/images/wallpapers"
 transition_on_startup = true
 
     [wallpaper.automation]
     enabled = true
 
     [wallpaper.default]
-    path = "/home/ivy/media/images/wallpapers/red-city.png"
+    path = "@home@/media/images/wallpapers/red-city.png"
 
     [wallpaper.last]
-    path = "/home/ivy/media/images/wallpapers/red-city.png"
+    path = "@home@/media/images/wallpapers/red-city.png"
 
     [wallpaper.monitors.WL-1]
-    path = "/home/ivy/media/images/wallpapers/wallhaven-5gwvz5.jpg"
+    path = "@home@/media/images/wallpapers/wallhaven-5gwvz5.jpg"
 
     [wallpaper.monitors.eDP-1]
-    path = "/home/ivy/media/images/wallpapers/red-city.png"
+    path = "@home@/media/images/wallpapers/red-city.png"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
-    path = "/home/ivy/media/images/wallpapers/wallhaven-5gwvz5.jpg"
+    path = "@home@/media/images/wallpapers/wallhaven-5gwvz5.jpg"
     theme_mode = "dark"
     wallpaper_scheme = "m3-content"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
-    path = "/home/ivy/media/images/wallpapers/wallhaven-e76pew.png"
+    path = "@home@/media/images/wallpapers/wallhaven-e76pew.png"
     theme_mode = "dark"
     wallpaper_scheme = "m3-fruit-salad"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
-    path = "/home/ivy/media/images/wallpapers/painting-lighthouse-02-1440p.jpg"
+    path = "@home@/media/images/wallpapers/painting-lighthouse-02-1440p.jpg"
     theme_mode = "dark"
     wallpaper_scheme = "m3-fruit-salad"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
-    path = "/home/ivy/media/images/wallpapers/wallhaven_4dolyl.jpg"
+    path = "@home@/media/images/wallpapers/wallhaven_4dolyl.jpg"
     theme_mode = "dark"
     wallpaper_scheme = "m3-content"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
-    path = "/home/ivy/media/images/wallpapers/oc_the_blackboard.png"
+    path = "@home@/media/images/wallpapers/oc_the_blackboard.png"
     theme_mode = "dark"
     wallpaper_scheme = "m3-content"
 

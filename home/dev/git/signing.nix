@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  metadata,
+  ...
+}:
 
 let
   cfg = config.ivy.git.signing;
@@ -23,7 +28,7 @@ in
     ];
 
     xdg.configFile."git/allowed_signers".text = ''
-      ivy@ivy.rs ${cfg.key}
+      ${metadata.user.emails.primary} ${cfg.key}
     '';
 
     programs.git.settings = lib.mkIf (cfg.key != null) {

@@ -1,6 +1,7 @@
 {
   inputs,
   lib,
+  metadata,
   pkgs,
   ...
 }:
@@ -11,7 +12,11 @@
 
   programs.noctalia = {
     enable = true;
-    settings = ./noctalia.toml;
+    settings = pkgs.replaceVars ./noctalia.toml {
+      home = metadata.user.homeDirectory;
+      servicesDomain = metadata.domains.services;
+      username = metadata.user.username;
+    };
     systemd.enable = true;
   };
 
@@ -21,8 +26,16 @@
   # a permission error — these have to be forced empty (or, for zathura,
   # pointed at a sibling file via `include`) to leave the path mutable. See
   # home/desktop/ghostty.nix, home/files/zathura.nix, home/dev/git/lazygit.nix,
-  # home/pim/aerc/default.nix, home/shell/tmux/default.nix and home/shell/cli.nix
-  # for the mkDefault fallbacks these override.
+  # home/pim/aerc/default.nix, home/shell/tmux/default.nix, home/shell/cli.nix
+  # and home/media/music.nix for the mkDefault fallbacks these override.
+  #
+  # ncspot has no `include` directive and no separate theme-file mechanism —
+  # its `[theme]` table has to live inside its one config.toml. So rather
+  # than forcing an existing home-manager-owned file empty, music.nix simply
+  # never defines xdg.configFile."ncspot/config.toml" at all, leaving that
+  # path free for noctalia to own outright; the static settings that would
+  # otherwise live there (e.g. use_nerdfont) are folded into the template
+  # below instead.
   programs.ghostty.settings.theme = lib.mkForce "noctalia";
 
   programs.zathura.options = lib.mkForce { };
@@ -52,7 +65,10 @@
   '';
 
   home.file.".config/noctalia/templates/aerc.conf".source = ./templates/aerc.conf;
+  home.file.".config/noctalia/templates/atuin.toml".source = ./templates/atuin.toml;
+  home.file.".config/noctalia/templates/opencode.json".source = ./templates/opencode.json;
   home.file.".config/noctalia/templates/fzf.sh".source = ./templates/fzf.sh;
+  home.file.".config/noctalia/templates/ncspot.toml".source = ./templates/ncspot.toml;
   home.file.".config/noctalia/templates/tmux.conf".source = ./templates/tmux.conf;
   # sourced from the musikcube fork itself (contrib/noctalia/) rather than a
   # local copy -- it's tightly coupled to musikcube's own theme JSON schema,
@@ -60,8 +76,9 @@
   # via cmake, so it adds real time to `home-manager switch` when this
   # derivation changes (nothing to do with theme/wallpaper changes, which
   # noctalia applies live without touching this input at all).
-  home.file.".config/noctalia/templates/musikcube-theme.json".source =
-    "${inputs.musikcube.packages.${pkgs.system}.default}/share/noctalia-templates/musikcube/musikcube-theme.json";
+  home.file.".config/noctalia/templates/musikcube-theme.json".source = "${
+    inputs.musikcube.packages.${pkgs.stdenv.hostPlatform.system}.default
+  }/share/noctalia-templates/musikcube/musikcube-theme.json";
 
   # neovim: unlike the apps above, nvf never touches ~/.config/nvim at
   # runtime (it wraps a fully self-contained nix-store binary — no

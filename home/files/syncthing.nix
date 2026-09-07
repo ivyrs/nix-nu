@@ -1,7 +1,7 @@
-{ ... }:
+{ metadata, ... }:
 
 let
-  home = "/home/ivy";
+  home = metadata.user.homeDirectory;
   devices = {
     elm = "TJPGEOG-GD5YAMM-47UEI4V-XTTAS4J-USDHS2B-JLNX4ED-NBEBUPF-WMYMOAC";
     maple = "5JH2CJ6-GEFOZAI-YTE2HIW-EK2NNHG-4CATBIM-WA4F2ZD-HUFTQIN-QXCBJAI";

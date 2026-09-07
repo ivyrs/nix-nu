@@ -23,10 +23,20 @@ let
       coreutils
     ]
   );
+
+  ts-exit = mkScript "ts-exit" (
+    with pkgs;
+    [
+      gum
+      jq
+      tailscale
+    ]
+  );
 in
 {
   home.packages = [
     cnote
     jrnl
+    ts-exit
   ];
 }

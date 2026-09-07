@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  metadata,
   ...
 }:
 
@@ -8,8 +9,8 @@
   accounts.email.accounts = {
     ivy = {
       primary = true;
-      address = "ivy@ivy.rs";
-      realName = "ivy forever";
+      address = metadata.user.emails.primary;
+      realName = metadata.user.fullName;
 
       flavor = "fastmail.com";
 
@@ -37,8 +38,8 @@
     };
 
     gmail = {
-      address = "ivyturner78@gmail.com";
-      realName = "ivy forever";
+      address = metadata.user.emails.gmail;
+      realName = metadata.user.fullName;
 
       flavor = "gmail.com";
 

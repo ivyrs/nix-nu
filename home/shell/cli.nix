@@ -1,4 +1,10 @@
-{ pkgs, lib, ... }: {
+{
+  lib,
+  metadata,
+  pkgs,
+  ...
+}:
+{
   home.packages = with pkgs; [
     ripgrep
     bat
@@ -52,11 +58,15 @@
 
     settings = {
       auto_sync = true;
-      sync_address = "http://yew:8888";
+      sync_address = "http://${metadata.hosts.yew.name}:8888";
 
       search_mode = "fuzzy";
       filter_mode = "global";
       filter_mode_shell_up_key_binding = "directory";
+
+      theme = {
+        name = "noctalia";
+      };
     };
   };
 
