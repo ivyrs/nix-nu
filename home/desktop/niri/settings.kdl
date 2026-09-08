@@ -1,8 +1,8 @@
 input {
     keyboard {
         xkb {
-            layout "gb"
-            variant "mac"
+            layout "gb,us"
+            variant "mac,"
             options "caps:escape"
         }
         numlock
