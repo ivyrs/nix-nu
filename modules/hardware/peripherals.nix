@@ -11,4 +11,8 @@ in
     unstable.openlogi
     unstable.zapp
   ];
+
+  services.udev.extraRules = ''
+  SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="df11", MODE="0666"
+  '';
 }
