@@ -70,6 +70,8 @@
   home.file.".config/noctalia/templates/fzf.sh".source = ./templates/fzf.sh;
   home.file.".config/noctalia/templates/ncspot.toml".source = ./templates/ncspot.toml;
   home.file.".config/noctalia/templates/tmux.conf".source = ./templates/tmux.conf;
+  home.file.".config/noctalia/templates/rmpc.ron".source = ./templates/rmpc.ron;
+
   # sourced from the musikcube fork itself (contrib/noctalia/) rather than a
   # local copy -- it's tightly coupled to musikcube's own theme JSON schema,
   # which lives there. Building this package compiles musikcube from source
