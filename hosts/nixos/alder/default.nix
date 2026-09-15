@@ -10,6 +10,7 @@
     ../../../modules/system/nix
     ../../../modules/system/nix/nixos.nix
     ../../../modules/system/nix/cachix.nix
+    ../../../modules/system/boot/blahaj.nix
 
     ../../../modules/users/ivy.nix
 

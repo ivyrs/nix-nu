@@ -1,0 +1,79 @@
+# vim: ft=bash
+
+set -e
+
+name="${1:-$(basename "$PWD")}"
+
+# Reattach if this project already has a session.
+if tmux has-session -t "$name" 2>/dev/null; then
+  exec tmux attach-session -t "$name"
+fi
+
+# 0: editor
+editor_pane="$(
+  tmux new-session -d -P \
+    -F '#{pane_id}' \
+    -s "$name" \
+    -n editor \
+    -c "$PWD"
+)"
+
+# Left: Neovim
+tmux send-keys \
+  -t "$editor_pane" \
+  "nvim ." C-m
+
+# Top-right: dev server
+dev_pane="$(
+  tmux split-window -h -P \
+    -F '#{pane_id}' \
+    -t "$editor_pane" \
+    -c "$PWD"
+)"
+
+tmux send-keys \
+  -t "$dev_pane" \
+  "just" C-m
+
+# Bottom-right: spare shell
+tmux split-window -v -P \
+  -F '#{pane_id}' \
+  -t "$dev_pane" \
+  -c "$PWD"
+
+# Give Neovim ~70% of the width.
+tmux resize-pane \
+  -t "$editor_pane" \
+  -x "70%"
+
+# General shell
+tmux new-window \
+  -t "$name" \
+  -n shell \
+  -c "$PWD"
+
+# Lazygit
+tmux new-window \
+  -t "$name" \
+  -n git \
+  -c "$PWD"
+
+tmux send-keys \
+  -t "$name:git" \
+  "lazygit" C-m
+
+# Coding agent
+tmux new-window \
+  -t "$name" \
+  -n agent \
+  -c "$PWD"
+
+tmux send-keys \
+  -t "$name:agent" \
+  "opencode" C-m
+
+# Return to editor and focus Neovim.
+tmux select-window -t "$name:editor"
+tmux select-pane -t "$editor_pane"
+
+exec tmux attach-session -t "$name"

@@ -4,7 +4,7 @@
     enableZshIntegration = true;
     settings = {
       format = " $username$hostname$directory$character";
-      right_format = "$all";
+      right_format = "$git_branch$git_status$git_state$cmd_duration"; 
 
       character = {
         success_symbol = ">";
@@ -17,7 +17,7 @@
       };
 
       git_status = {
-        format = "[[(* $conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)";
+        format = "[[(* $conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style) ";
         style = "";
         conflicted = "";
         untracked = "u";
@@ -25,7 +25,7 @@
         staged = "s";
         renamed = "r";
         deleted = "x";
-        stashed = "st";
+        stashed = "S";
       };
 
       git_state = {
@@ -42,7 +42,7 @@
       };
 
       hostname = {
-        ssh_symbol = " ssh";
+        ssh_symbol = "";
         format = "[$hostname]($style)[$ssh_symbol](bold blue) ";
         trim_at = ".";
         #aliases = {

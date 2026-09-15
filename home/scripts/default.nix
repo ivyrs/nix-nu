@@ -32,11 +32,19 @@ let
       tailscale
     ]
   );
+
+  tdev = mkScript "tdev" (
+    with pkgs;
+    [
+      sl
+    ]
+  );
 in
 {
   home.packages = [
     cnote
     jrnl
     ts-exit
+    tdev
   ];
 }

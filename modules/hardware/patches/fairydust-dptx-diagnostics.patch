@@ -1,0 +1,225 @@
+Subject: [PATCH] display: add optional FDDBG connection diagnostics
+
+Optional FDDBG instrumentation only; no recovery or protocol changes.
+Target: /nix/store/7y3r5zmv4la3ljw11bp6kznlrk3f4aya-source
+
+diff --git a/drivers/gpu/drm/apple/dcp.c b/drivers/gpu/drm/apple/dcp.c
+--- a/drivers/gpu/drm/apple/dcp.c
++++ b/drivers/gpu/drm/apple/dcp.c
+@@ -361,5 +361,6 @@ static int dcp_dptx_connect(struct apple_dcp *dcp, u32 port)
+ {
+ 	int ret = 0;
++	int call_ret;
+ 
+ 	if (!dcp->phy) {
+ 		dev_warn(dcp->dev, "dcp_dptx_connect: missing phy\n");
+@@ -374,17 +375,25 @@ static int dcp_dptx_connect(struct apple_dcp *dcp, u32 port)
+ 		goto out_unlock;
+ 	}
+ 
+-	if (dcp->dptxport[port].connected)
++	if (dcp->dptxport[port].connected) {
++		dev_info(dcp->dev, "FDDBG connect port=%u already-connected skip\n", port);
+ 		goto out_unlock;
++	}
+ 
+ 	reinit_completion(&dcp->dptxport[port].linkcfg_completion);
+ 	dcp->dptxport[port].atcphy = dcp->phy;
+-	dptxport_connect(dcp->dptxport[port].service, 0, dcp->dptx_phy, dcp->dptx_die);
+-	dptxport_request_display(dcp->dptxport[port].service);
++	call_ret = dptxport_connect(dcp->dptxport[port].service, 0,
++				    dcp->dptx_phy, dcp->dptx_die);
++	dev_info(dcp->dev, "FDDBG connect port=%u phy=%u die=%u ret=%d\n",
++		 port, dcp->dptx_phy, dcp->dptx_die, call_ret);
++	call_ret = dptxport_request_display(dcp->dptxport[port].service);
++	dev_info(dcp->dev, "FDDBG request_display port=%u ret=%d\n", port, call_ret);
+ 	dcp->dptxport[port].connected = true;
+ 
+ 	mutex_unlock(&dcp->hpd_mutex);
+ 	ret = wait_for_completion_timeout(&dcp->dptxport[port].linkcfg_completion,
+ 				    DPTX_CONNECT_TIMEOUT);
++	dev_info(dcp->dev, "FDDBG link_wait port=%u ret=%d %s\n", port, ret,
++		 ret < 0 ? "error" : ret == 0 ? "timeout" : "positive-lane-callback");
+ 	if (ret < 0)
+ 		dev_warn(dcp->dev, "dcp_dptx_connect: port %d link complete failed:%d\n",
+@@ -395,8 +404,10 @@ static int dcp_dptx_connect(struct apple_dcp *dcp, u32 port)
+ 
+ 	usleep_range(5, 10);
+ 
+-	if (dcp->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
+-		dptxport_set_hpd(dcp->dptxport[port].service, true);
++	if (dcp->connector_type == DRM_MODE_CONNECTOR_DisplayPort) {
++		call_ret = dptxport_set_hpd(dcp->dptxport[port].service, true);
++		dev_info(dcp->dev, "FDDBG set_hpd port=%u hpd=1 ret=%d\n", port, call_ret);
++	}
+ 
+ 	if (dcp->avep)
+ 		av_service_connect(dcp);
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -557,6 +557,7 @@ static void cd321x_typec_update_mode(struct tps6598x *tps, struct cd321x_status *st)
+ 	} else if (st->data_status & TPS_DATA_STATUS_DP_CONNECTION) {
+ 		struct typec_displayport_data dp_data;
+ 		unsigned long mode;
++		int mux_ret;
+ 
+ 		switch (TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT(st->data_status)) {
+ 		case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_A:
+@@ -584,6 +585,8 @@ static void cd321x_typec_update_mode(struct tps6598x *tps, struct cd321x_status *st)
+ 
+ 		if (cd321x->state.alt == cd321x->port_altmode_dp &&
+ 		   cd321x->state.mode == mode) {
++			dev_info(tps->dev, "FDDBG DP cached-same mode=%lu mux_missing=%d skip\n",
++				 mode, IS_ERR_OR_NULL(cd321x->mux));
+ 			return;
+ 		}
+ 
+@@ -592,7 +595,10 @@ static void cd321x_typec_update_mode(struct tps6598x *tps, struct cd321x_status *st)
+ 		cd321x->state.alt = cd321x->port_altmode_dp;
+ 		cd321x->state.data = &dp_data;
+ 		cd321x->state.mode = mode;
+-		typec_mux_set(cd321x->mux, &cd321x->state);
++		mux_ret = typec_mux_set(cd321x->mux, &cd321x->state);
++		dev_info(tps->dev, "FDDBG DP mux mode=%lu mux_missing=%d ret=%d status=%#x conf=%#x\n",
++			 mode, IS_ERR_OR_NULL(cd321x->mux), mux_ret,
++			 dp_data.status, dp_data.conf);
+ 	} else if (st->data_status & TPS_DATA_STATUS_TBT_CONNECTION) {
+ 		struct typec_thunderbolt_data tbt_data;
+ 
+@@ -681,11 +687,16 @@ static void cd321x_update_work(struct work_struct *work)
+ 		 (is_pd && memcmp(&st.partner_identity,
+ 				  &cd321x->cur_partner_identity, sizeof(struct usb_pd_identity))));
+ 
++	dev_info(tps->dev, "FDDBG update present=%d->%d disconnected=%d hpd=%d changed=%d orientation=%u\n",
++		 old_connected, new_connected, was_disconnected, dp_hpd,
++		 dp_hpd_changed, orientation);
++
+ 	/* If we are switching from an active role, transition to USB_ROLE_NONE first */
+ 	if (old_role != USB_ROLE_NONE && (new_role != old_role || was_disconnected))
+ 		usb_role_switch_set_role(tps->role_sw, USB_ROLE_NONE);
+ 
+ 	if (cd321x->connector_fwnode && (!dp_hpd || dp_hpd_changed)) {
++		dev_info(tps->dev, "FDDBG update oob disconnected\n");
+ 		drm_connector_oob_hotplug_event(cd321x->connector_fwnode, connector_status_disconnected);
+ 	}
+ 
+@@ -745,8 +756,10 @@ static void cd321x_update_work(struct work_struct *work)
+ 	/* Launch the USB role switch */
+ 	usb_role_switch_set_role(tps->role_sw, new_role);
+ 
+-	if (cd321x->connector_fwnode && dp_hpd)
++	if (cd321x->connector_fwnode && dp_hpd) {
++		dev_info(tps->dev, "FDDBG update oob connected\n");
+ 		drm_connector_oob_hotplug_event(cd321x->connector_fwnode, connector_status_connected);
++	}
+ 
+ 	power_supply_changed(tps->psy);
+ }
+diff --git a/drivers/gpu/drm/apple/afk.c b/drivers/gpu/drm/apple/afk.c
+--- a/drivers/gpu/drm/apple/afk.c
++++ b/drivers/gpu/drm/apple/afk.c
+@@ -481,6 +481,8 @@ static void afk_recv_handle_std_service(struct apple_dcp_afkep *ep, u32 channel,
+ 					 payload + sizeof(*call), call_size,
+ 					 reply + sizeof(*call), call_size);
+ 		if (ret) {
++			dev_info(ep->dcp->dev, "FDDBG AFK no-ACK ep=%#x channel=%u call=%u ret=%d\n",
++				 ep->endpoint, channel, le32_to_cpu(call->type), ret);
+ 			kfree(reply);
+ 			return;
+ 		}
+diff --git a/drivers/gpu/drm/apple/iomfb_template.c b/drivers/gpu/drm/apple/iomfb_template.c
+--- a/drivers/gpu/drm/apple/iomfb_template.c
++++ b/drivers/gpu/drm/apple/iomfb_template.c
+@@ -597,6 +597,10 @@ static u8 dcpep_cb_prop_end(struct apple_dcp *dcp,
+ {
+ 	u8 resp = dcpep_process_chunks(dcp, req);
+ 
++	dev_info(dcp->dev, "FDDBG prop_end key=%.*s result=%u nr_modes=%u connected=%d\n",
++		 (int)sizeof(req->key), req->key, resp, dcp->nr_modes,
++		 dcp->connector ? dcp->connector->connected : -1);
++
+ 	/* move chunked data to connector to provide it via debugfs */
+ 	dcp_connector_update_dict(dcp->connector, req->key, &dcp->chunks);
+ 	dcp->chunks.data = NULL;
+@@ -1010,6 +1014,11 @@ static void dcpep_cb_hotplug(struct apple_dcp *dcp, u64 *connected)
+ {
+ 	struct apple_connector *connector = dcp->connector;
+ 
++	dev_info(dcp->dev, "FDDBG hotplug incoming=%llu connected=%d main=%d modeset=%d valid=%d nr_modes=%u\n",
++		 *connected, connector ? connector->connected : -1,
++		 dcp->main_display, dcp->during_modeset, dcp->valid_mode,
++		 dcp->nr_modes);
++
+ 	/* DCP issues hotplug_gated callbacks after SetPowerState() calls on
+ 	 * devices with display (macbooks, imacs). This must not result in
+ 	 * connector state changes on DRM side. Some applications won't enable
+@@ -1427,6 +1436,8 @@ static void res_is_main_display(struct apple_dcp *dcp, void *out, void *cookie)
+ 
+ 	connector = dcp->connector;
+ 	if (connector) {
++		dev_info(dcp->dev, "FDDBG startup connected=%d->%d nr_modes=%u\n",
++			 connector->connected, dcp->nr_modes > 0, dcp->nr_modes);
+ 		connector->connected = dcp->nr_modes > 0;
+ 		schedule_work(&connector->hotplug_wq);
+ 	}
+diff --git a/drivers/gpu/drm/apple/iomfb.c b/drivers/gpu/drm/apple/iomfb.c
+--- a/drivers/gpu/drm/apple/iomfb.c
++++ b/drivers/gpu/drm/apple/iomfb.c
+@@ -353,6 +353,10 @@ int dcp_get_modes(struct drm_connector *connector)
+ 	struct drm_display_mode *mode;
+ 	int i;
+ 
++	dev_info(dcp->dev, "FDDBG get_modes nr_modes=%u av_enabled=%d edid_cached=%d connected=%d\n",
++		 dcp->nr_modes, dcp->dcpavserv.enabled,
++		 !!apple_connector->drm_edid, apple_connector->connected);
++
+ 	for (i = 0; i < dcp->nr_modes; ++i) {
+ 		mode = drm_mode_duplicate(dev, &dcp->modes[i].mode);
+ 
+diff --git a/drivers/gpu/drm/apple/dptxep.c b/drivers/gpu/drm/apple/dptxep.c
+--- a/drivers/gpu/drm/apple/dptxep.c
++++ b/drivers/gpu/drm/apple/dptxep.c
+@@ -259,7 +259,9 @@ static int dptxport_call_get_max_lane_count(struct apple_epic_service *service,
+ 
+ 	ret = phy_validate(dptx->atcphy, PHY_MODE_DP, 0, &phy_ops);
+ 	if (ret < 0) {
+-		dev_err(dcp->dev, "phy_validate failed: %d\n", ret);
++		dev_err(dcp->dev,
++			"FDDBG get_max_lane_count port=%u phy_lanes=unknown reported=0 ret=%d\n",
++			dptx->unit, ret);
+ 		reply->retcode = cpu_to_le32(1);
+ 		reply->lane_count = cpu_to_le64(0);
+ 	} else {
+@@ -275,6 +277,9 @@ static int dptxport_call_get_max_lane_count(struct apple_epic_service *service,
+ 		}
+ 		reply->retcode = cpu_to_le32(0);
+ 		reply->lane_count = cpu_to_le64(dptx->lane_count);
++		dev_info(dcp->dev, "FDDBG get_max_lane_count port=%u phy_lanes=%u reported=%u fallback=%d ret=%d\n",
++			 dptx->unit, phy_ops.dp.lanes, dptx->lane_count,
++			 phy_ops.dp.lanes < 2, ret);
+ 	}
+ 
+ 	return 0;
+@@ -427,6 +432,9 @@ static int dptxport_call_set_link_rate(struct apple_epic_service *service,
+ 
+ 		if (dptx->atcphy) {
+ 			ret = phy_configure(dptx->atcphy, &dptx->phy_ops);
++			dev_info(service->ep->dcp->dev, "FDDBG link_rate port=%u rate=%#x phy_rate=%u lanes=%u ret=%d\n",
++				 dptx->unit, link_rate, phy_link_rate,
++				 dptx->phy_ops.dp.lanes, ret);
+ 			if (ret)
+ 				return ret;
+ 		}
+@@ -555,8 +563,9 @@ static int dptxport_call(struct apple_epic_service *service, u32 idx,
+ 						reply, reply_size);
+ 	default:
+ 		/* just try to ACK and hope for the best... */
+-		dev_info(service->ep->dcp->dev, "DPTXPort: acking unhandled call %u\n",
+-			idx);
++		dev_info(service->ep->dcp->dev, "FDDBG unhandled apcall port=%u call=%u size=%zu reply_size=%zu lanes=%u rate=%#x ACK\n",
++			 dptx->unit, idx, data_size, reply_size,
++			 dptx->lane_count, dptx->link_rate);
+ 		fallthrough;
+ 	case DPTX_APCALL_GET_DOWN_SPREAD:
+ 	case DPTX_APCALL_SET_DOWN_SPREAD:
