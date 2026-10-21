@@ -4,7 +4,6 @@
     enableGitIntegration = true;
     options = {
       navigate = true; # use n and N to move between diff sections
-      syntax-theme = "noctalia";
     };
   };
 }

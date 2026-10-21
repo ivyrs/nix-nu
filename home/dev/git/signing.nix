@@ -27,7 +27,7 @@ in
       }
     ];
 
-    xdg.configFile."git/allowed_signers".text = ''
+    xdg.configFile."git/allowed_signers".text = lib.mkIf (cfg.key != null) ''
       ${metadata.user.emails.primary} ${cfg.key}
     '';
 

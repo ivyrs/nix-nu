@@ -1,23 +1,9 @@
-{ inputs, ... }:
-
 {
   imports = [
-    inputs.nvf.homeManagerModules.default
+    ./core.nix
   ];
 
-  programs.nvf = {
-    enable = true;
-
-    settings = {
-      imports = [
-        ./config/core.nix
-        ./config/languages.nix
-      ];
-    };
-  };
-
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    VISUAL = "nvim";
+  programs.nvf.settings = {
+    imports = [ ./config/languages.nix ];
   };
 }

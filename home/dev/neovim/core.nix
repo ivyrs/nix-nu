@@ -1,8 +1,6 @@
-{ inputs, ... }:
-
 {
   imports = [
-    inputs.nvf.homeManagerModules.default
+    ./module.nix
   ];
 
   programs.nvf = {

@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   ...
@@ -20,34 +21,67 @@ let
       hash = "sha256-4RRAFThnp06QFb3U4IjRTRc3B9muyajH592ZNWJrJZY=";
     };
   });
+  musikcube = inputs.musikcube.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  musikcube-package =
+    if pkgs.stdenv.hostPlatform.isDarwin then
+      musikcube.overrideAttrs (old: {
+        buildInputs = (old.buildInputs or [ ]) ++ [
+          pkgs.gnutls
+          pkgs.libev
+        ];
+      })
+    else
+      musikcube;
 in
 {
-  home.packages = with pkgs; [
-    ncspot-latest
-    playerctl
-    feishin
-    inputs.musikcube.packages.${pkgs.stdenv.hostPlatform.system}.default
-  ];
+  home.packages =
+    (with pkgs; [
+      ncspot-latest
+      feishin
+      musikcube-package
+    ])
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.playerctl ];
 
-  ## mpd 
+  ## mpd
+  home.activation.mpdDirectories = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      run ${pkgs.coreutils}/bin/mkdir -p ${
+        lib.escapeShellArgs [
+          config.services.mpd.dataDir
+          config.services.mpd.playlistDirectory
+          "${config.home.homeDirectory}/Library/Logs/mpd"
+        ]
+      }
+    ''
+  );
+
   services.mpd = {
     enable = true;
 
-  network = {
-    listenAddress = "127.0.0.1";
-    port = 6600;
+    network = {
+      listenAddress = "127.0.0.1";
+      port = 6600;
+    };
+
+    musicDirectory = "${config.home.homeDirectory}/media/music";
+    # TODO: make this overridable
+
+    extraConfig =
+      if pkgs.stdenv.hostPlatform.isDarwin then
+        ''
+          audio_output {
+            type "osx"
+            name "CoreAudio"
+          }
+        ''
+      else
+        ''
+          audio_output {
+            type "pipewire"
+            name "PipeWire"
+          }
+        '';
   };
-
-  musicDirectory = "${config.home.homeDirectory}/media/music"; 
-  # TODO: make this overridable
-
-  extraConfig = ''
-    audio_output {
-      type "pipewire"
-      name "PipeWire"
-    }
-  '';
-};
   ## rmpc
   programs.rmpc = {
     enable = true;

@@ -6,6 +6,9 @@ name="${1:-$(basename "$PWD")}"
 
 # Reattach if this project already has a session.
 if tmux has-session -t "$name" 2>/dev/null; then
+  if [ -n "${TMUX:-}" ]; then
+    exec tmux switch-client -t "$name"
+  fi
   exec tmux attach-session -t "$name"
 fi
 
@@ -76,4 +79,7 @@ tmux send-keys \
 tmux select-window -t "$name:editor"
 tmux select-pane -t "$editor_pane"
 
+if [ -n "${TMUX:-}" ]; then
+  exec tmux switch-client -t "$name"
+fi
 exec tmux attach-session -t "$name"

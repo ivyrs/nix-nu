@@ -1,11 +1,7 @@
 keys:
   - &admin_ivy age1s3alvzg7mflyl6jrhdmke6l3qeczmsktsw5utuxhvr9x4xh20peqy6vt2w
   - &host_aspen age1xwqwdp305u38ytak4rc7erj005r979u9q875g6n2jqsgx4y4gcmsvdk0h6
-  - &host_elm age13td2yjnfrcxydg4c2tk43muxxdsgzxmsyns0ygv892vp0p9grveqcvuut3
-  - &host_houseplants age18k38qf03syeg5zsyunzz0llgn9jx9x5r9etlzwkytdst2v9f3g3q0605au
   - &host_alder age130fxnc93w6kndvmymhj5vu0ztzl7s478rdk7ksvswmslr646tcmqgl5kff
-  - &host_yew age1epgalun8qkry02srfmnzxsy7m0u7y847v548lm9pxsyz9s4wz46q0a9ty3
-  - &host_scarecrow age1x29sd6wfkkzcv2sxwmp3927dxa5ad7m5lvvm4nw2wv9t52qzkexsr45rg6
 
 creation_rules:
   - path_regex: secrets/alder\.yaml$
@@ -13,27 +9,3 @@ creation_rules:
       - age:
           - *admin_ivy
           - *host_alder
-
-  - path_regex: secrets/elm\.yaml$
-    key_groups:
-      - age:
-          - *admin_ivy
-          - *host_elm
-
-  - path_regex: secrets/yew\.yaml$
-    key_groups:
-      - age:
-          - *admin_ivy
-          - *host_yew
-
-  - path_regex: secrets/houseplants\.yaml$
-    key_groups:
-      - age:
-          - *admin_ivy
-          - *host_houseplants
-
-  - path_regex: secrets/scarecrow\.yaml$
-    key_groups:
-      - age:
-          - *admin_ivy
-          - *host_scarecrow

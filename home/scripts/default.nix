@@ -36,7 +36,8 @@ let
   tdev = mkScript "tdev" (
     with pkgs;
     [
-      sl
+      coreutils
+      tmux
     ]
   );
 in

@@ -5,21 +5,10 @@
     # Keep hosts on stable; use this only for packages with a concrete need.
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # hardware support
     apple-silicon = {
       url = "github:nix-community/nixos-apple-silicon/release-2026-07-30";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # it makes macs go :eyes:
-    asahi-firmware = {
-      url = "path:/etc/nixos/asahi-firmware";
-      flake = false;
     };
 
     # speaking in tongues (age encrypted strings)
@@ -34,10 +23,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    deploy-rs = {
-      url = "github:serokell/deploy-rs";
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     # wallpaper engine
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
@@ -67,9 +58,6 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # oh-my-pi (omp), a batteries-included coding agent harness
-    oh-my-pi.url = "github:can1357/oh-my-pi";
   };
 
   outputs =
@@ -81,6 +69,11 @@
     }:
     let
       metadata = import ./metadata.nix;
+      aspenMetadata = metadata // {
+        user = metadata.user // {
+          homeDirectory = "/Users/${metadata.user.username}";
+        };
+      };
 
       systems = [
         "aarch64-linux"
@@ -89,6 +82,14 @@
       ];
 
       forAllSystems = nixpkgs.lib.genAttrs systems;
+
+      mkNixosHost =
+        name:
+        nixpkgs.lib.nixosSystem {
+          system = metadata.hosts.${name}.system;
+          specialArgs = { inherit inputs metadata; };
+          modules = [ (./hosts/nixos + "/${name}") ];
+        };
 
       treefmtEval = forAllSystems (
         system:
@@ -100,107 +101,21 @@
     {
       inherit metadata;
 
-      nixosConfigurations.alder = nixpkgs.lib.nixosSystem {
-        system = metadata.hosts.alder.system;
+      nixosConfigurations = nixpkgs.lib.genAttrs [
+        "alder"
+      ] mkNixosHost;
+
+      darwinConfigurations.aspen = inputs.nix-darwin.lib.darwinSystem {
+        system = metadata.hosts.aspen.system;
 
         specialArgs = {
-          inherit inputs metadata;
+          inherit inputs;
+          metadata = aspenMetadata;
         };
 
         modules = [
-          ./hosts/nixos/alder
+          ./hosts/darwin/aspen
         ];
-      };
-
-      nixosConfigurations.elm = nixpkgs.lib.nixosSystem {
-        system = metadata.hosts.elm.system;
-
-        specialArgs = {
-          inherit inputs metadata;
-        };
-
-        modules = [
-          ./hosts/nixos/elm
-        ];
-      };
-
-      nixosConfigurations.yew = nixpkgs.lib.nixosSystem {
-        system = metadata.hosts.yew.system;
-
-        specialArgs = {
-          inherit inputs metadata;
-        };
-
-        modules = [
-          ./hosts/nixos/yew
-        ];
-      };
-
-      nixosConfigurations.houseplants = nixpkgs.lib.nixosSystem {
-        system = metadata.hosts.houseplants.system;
-
-        specialArgs = {
-          inherit inputs metadata;
-        };
-
-        modules = [
-          ./hosts/nixos/houseplants
-        ];
-      };
-
-      nixosConfigurations.scarecrow = nixpkgs.lib.nixosSystem {
-        system = metadata.hosts.scarecrow.system;
-
-        specialArgs = {
-          inherit inputs metadata;
-        };
-
-        modules = [
-          ./hosts/nixos/scarecrow
-        ];
-      };
-
-      deploy = {
-        remoteBuild = true;
-        sshUser = "deploy";
-        autoRollback = true;
-        magicRollback = true;
-
-        nodes.elm = {
-          hostname = "${metadata.hosts.elm.name}.${metadata.tailnet.domain}";
-
-          profiles.system = {
-            user = "root";
-            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.elm;
-          };
-        };
-
-        nodes.yew = {
-          hostname = "${metadata.hosts.yew.name}.${metadata.tailnet.domain}";
-
-          profiles.system = {
-            user = "root";
-            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.yew;
-          };
-        };
-
-        nodes.houseplants = {
-          hostname = "${metadata.hosts.houseplants.name}.${metadata.tailnet.domain}";
-
-          profiles.system = {
-            user = "root";
-            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.houseplants;
-          };
-        };
-
-        nodes.scarecrow = {
-          hostname = "${metadata.hosts.scarecrow.name}.${metadata.tailnet.domain}";
-
-          profiles.system = {
-            user = "root";
-            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.scarecrow;
-          };
-        };
       };
 
       homeModules = {
@@ -278,9 +193,6 @@
         {
           formatting = treefmtEval.${system}.config.build.check self;
         }
-        // nixpkgs.lib.optionalAttrs (system == "x86_64-linux") (
-          inputs.deploy-rs.lib.${system}.deployChecks self.deploy
-        )
       );
 
       devShells = forAllSystems (
@@ -293,7 +205,6 @@
             packages = with pkgs; [
               just
               nil
-              inputs.deploy-rs.packages.${system}.default
             ];
           };
         }

@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   lib,
   metadata,
@@ -6,7 +7,10 @@
   ...
 }:
 {
-  imports = [ inputs.noctalia.homeModules.default ];
+  imports = [
+    inputs.noctalia.homeModules.default
+    ../../dev/neovim/module.nix
+  ];
 
   home.packages = [ pkgs.swappy ];
 
@@ -23,8 +27,7 @@
   # noctalia writes its generated theme directly into these apps' own config
   # paths at runtime. A non-empty home-manager-owned file at that exact path
   # is a read-only symlink into the nix store, so noctalia's write fails with
-  # a permission error — these have to be forced empty (or, for zathura,
-  # pointed at a sibling file via `include`) to leave the path mutable. See
+  # a permission error. Leave these empty or load a separate mutable theme. See
   # home/desktop/ghostty.nix, home/files/zathura.nix, home/dev/git/lazygit.nix,
   # home/pim/aerc/default.nix, home/shell/tmux/default.nix, home/shell/cli.nix
   # and home/media/music.nix for the mkDefault fallbacks these override.
@@ -41,7 +44,22 @@
   programs.zathura.options = lib.mkForce { };
   programs.zathura.extraConfig = "include noctaliarc";
 
-  programs.lazygit.settings = lib.mkForce { };
+  # Noctalia owns config.yml; layer it over the static settings (Lazygit 0.61.1).
+  home.file."${config.xdg.configHome}/lazygit/config.yml".enable = lib.mkForce false;
+  programs.lazygit.package = pkgs.writeShellScriptBin "lazygit" ''
+    if [ -z "''${LG_CONFIG_FILE:-}" ]; then
+      export LG_CONFIG_FILE=${
+        (pkgs.formats.yaml { }).generate "lazygit-static.yml" config.programs.lazygit.settings
+      }
+      if [ -f "${config.xdg.configHome}/lazygit/config.yml" ]; then
+        LG_CONFIG_FILE="$LG_CONFIG_FILE,${config.xdg.configHome}/lazygit/config.yml"
+      fi
+    fi
+    exec ${pkgs.lazygit}/bin/lazygit "$@"
+  '';
+
+  programs.atuin.settings.theme.name = "noctalia";
+  programs.delta.options.syntax-theme = "noctalia";
 
   programs.aerc.extraConfig.ui.styleset-name = lib.mkForce "noctalia";
   programs.aerc.stylesets = lib.mkForce { };
@@ -57,9 +75,7 @@
     [ -f "$HOME/.config/fzf/noctalia-colors.sh" ] && source "$HOME/.config/fzf/noctalia-colors.sh"
   '';
 
-  programs.tmux.extraConfig = lib.mkForce ''
-    ${builtins.readFile ../../shell/tmux/tmux.conf}
-
+  programs.tmux.extraConfig = lib.mkAfter ''
     # Source noctalia-generated theme (will override hardcoded colors above)
     source-file -q ~/.config/tmux/noctalia-theme.conf
   '';
@@ -126,7 +142,9 @@
               -- out so the terminal's own (transparent) background shows
               -- through, matching vim.theme.transparent on non-noctalia hosts.
               for _, group in ipairs(noctalia_transparent_groups) do
-                vim.api.nvim_set_hl(0, group, { bg = "none" })
+                local highlight = vim.api.nvim_get_hl(0, { name = group, link = false })
+                highlight.bg = nil
+                vim.api.nvim_set_hl(0, group, highlight)
               end
             end
           end

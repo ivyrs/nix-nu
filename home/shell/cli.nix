@@ -1,6 +1,5 @@
 {
   lib,
-  metadata,
   pkgs,
   ...
 }:
@@ -29,7 +28,10 @@
     ssh-to-age
     glow
     devenv
+    rustup
   ];
+
+  home.sessionPath = [ "$HOME/.cargo/bin" ];
 
   programs.fzf = {
     enable = true;
@@ -56,24 +58,30 @@
     enable = true;
     enableZshIntegration = true;
 
+    # No sync server since Yew was decommissioned; local history only
+    # until a replacement exists.
     settings = {
-      auto_sync = true;
-      sync_address = "http://${metadata.hosts.yew.name}:8888";
+      auto_sync = false;
 
       search_mode = "fuzzy";
       filter_mode = "global";
       filter_mode_shell_up_key_binding = "directory";
-
-      theme = {
-        name = "noctalia";
-      };
     };
   };
 
-  #programs.direnv = {
-  #enable = true;
-  #enableZshIntegration = true;
-  #enableNushellIntegration = true;
-  #config.global.hide_env_diff = true;
-  #};
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    #enableNushellIntegration = true;
+    config.global.hide_env_diff = true;
+  };
+
+  programs.zsh = {
+    enable = true;
+
+    initContent = ''
+      eval "$(devenv hook zsh)"
+    '';
+  };
+
 }

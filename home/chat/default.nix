@@ -1,9 +1,17 @@
 {
+  isDarwin ? false,
+  lib,
+  ...
+}:
+
+{
   imports = [
     ./vesktop.nix
+    ./signal.nix
+  ]
+  ++ lib.optionals (!isDarwin) [
     ./xmpp.nix
     ./irc.nix
-    ./signal.nix
     # ./matrix.nix # TODO: empty stub, not written yet
   ];
 }

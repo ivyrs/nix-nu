@@ -60,11 +60,6 @@
       help.autocorrect = "prompt";
       commit = {
         verbose = true;
-        gpgsign = true;
-      };
-
-      gpg = {
-        format = "ssh";
       };
 
       rerere = {

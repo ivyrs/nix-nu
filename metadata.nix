@@ -30,27 +30,10 @@
       name = "alder";
       system = "aarch64-linux";
     };
-    elm = {
-      name = "elm";
-      system = "x86_64-linux";
-    };
-    yew = {
-      name = "yew";
-      system = "x86_64-linux";
-    };
-    houseplants = {
-      name = "houseplants";
-      system = "aarch64-linux";
-    };
-    scarecrow = {
-      name = "scarecrow";
-      system = "x86_64-linux";
-    };
 
     aspen = {
       name = "aspen";
       system = "aarch64-darwin";
     };
-    lovecomputer.name = "lovecomputer";
   };
 }

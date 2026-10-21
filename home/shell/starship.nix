@@ -4,7 +4,7 @@
     enableZshIntegration = true;
     settings = {
       format = " $username$hostname$directory$character";
-      right_format = "$git_branch$git_status$git_state$cmd_duration"; 
+      right_format = "$git_branch$git_status$git_state$cmd_duration";
 
       character = {
         success_symbol = ">";

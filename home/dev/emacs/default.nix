@@ -4,7 +4,18 @@
   programs.emacs = {
     enable = true;
 
-    package = pkgs.emacs-pgtk;
+    package = if pkgs.stdenv.hostPlatform.isDarwin then pkgs.emacs else pkgs.emacs-pgtk;
+
+    overrides = final: prev: {
+      # GNU ELPA removed the 9.8.3 archive referenced by this nixpkgs revision.
+      org = prev.org.overrideAttrs {
+        version = "9.8.10";
+        src = pkgs.fetchurl {
+          url = "https://elpa.gnu.org/packages/org-9.8.10.tar";
+          hash = "sha256-iQqd1cTx0nn27Qs9EGcNeWqsy3/ccaKmZc0VO+xGPx0=";
+        };
+      };
+    };
 
     extraPackages =
       epkgs: with epkgs; [

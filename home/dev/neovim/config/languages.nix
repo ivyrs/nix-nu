@@ -1,6 +1,11 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
+  vim.extraPackages = [
+    pkgs.nixfmt
+    pkgs.oxfmt
+  ];
+
   vim.languages = {
     nix.enable = true;
     markdown.enable = true;

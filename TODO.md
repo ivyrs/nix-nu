@@ -40,11 +40,11 @@
 
 Do this when actually booted into macOS.
 
-- [ ] Add nix-darwin
-- [ ] Add `darwinConfigurations.aspen`
-- [ ] Add nix-homebrew if still useful
+- [x] Add nix-darwin
+- [x] Add `darwinConfigurations.aspen`
+- [x] Add nix-homebrew if still useful
 - [ ] Recreate Darwin-specific Nix/Lix configuration
-- [ ] Reuse shared Home Manager modules
+- [x] Reuse shared Home Manager modules
 - [ ] Migrate rbw / SSH agent
 - [ ] Migrate Git SSH signing away from 1Password
 - [ ] Test shell
@@ -57,7 +57,7 @@ Do this when actually booted into macOS.
 
 Only do these when actual duplication makes them worthwhile.
 
-- [ ] Consider `roles/server.nix`
+- [x] Consider `roles/server.nix`
 - [ ] Consider `roles/desktop.nix`
 - [ ] Consider shared Darwin/NixOS Nix module
 - [ ] Consider custom `lib/` helpers
@@ -76,3 +76,20 @@ Only do these when actual duplication makes them worthwhile.
 ## Final cleanup
 
 - [ ] Redirect `ivyro.se/flake` to the `nix-nu` repository
+
+## Review Follow-ups
+
+- [ ] Revoke/rotate the removed Wallhaven API credential; review historical exposure
+- [ ] Reconcile Alder's actual SOPS recipients with `.sops.yaml` using an administrator key
+- [ ] Audit copied unused secret entries and rotate credentials where recipient scope was too broad
+- [ ] Provision Darwin credential commands for Aspen's email, calendar, and contact accounts
+- [ ] Complete rbw account/key provisioning and test SSH signing on both desktop hosts
+- [ ] Define consistent database/file backups, host-key recovery, and a tested restore procedure
+- [ ] Decide whether Homebrew upgrades and destructive `zap` cleanup should run during activation
+- [ ] Review HaRP's privileged Docker access and shared-key process-argument exposure
+- [ ] Verify OIDC account-linking and username-claim trust against existing accounts
+- [ ] Document tailnet enrollment, service approvals, grants, and console recovery per host
+- [ ] Test first-start MPD, Noctalia generation, clipboard delivery, and Prosody certificate renewal
+- [ ] Revisit Asahi kernel reuse only when source/version overrides preserve the selected kernel
+- [ ] Verify Navidrome clients use the music Tailscale Service rather than Elm's raw port 4533
+- [ ] Review old Cachix uploads for firmware; disabling the watcher does not delete uploaded paths

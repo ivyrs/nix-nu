@@ -11,6 +11,7 @@
 
     extraSpecialArgs = {
       inherit inputs metadata;
+      isDarwin = false;
     };
 
     backupFileExtension = "hm-backup";

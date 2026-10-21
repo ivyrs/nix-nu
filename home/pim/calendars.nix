@@ -8,7 +8,10 @@
       settings.default.default_calendar = "personal";
     };
 
-    todoman.enable = true;
+    todoman = {
+      enable = true;
+      glob = "*/*";
+    };
   };
 
   accounts.calendar = {

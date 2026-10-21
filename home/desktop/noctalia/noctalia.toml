@@ -194,7 +194,7 @@ position_vertical = "top_right"
     privacy = false
 
 [plugin_settings."noctalia/wallhaven"]
-api_key = "HpsWwKq1znrLVFV1dPuZ8rk84wg9E6Hu"
+api_key = ""
 
 [plugins]
 enabled = [ "noctalia/wallhaven", "noctalia/bitwarden" ]

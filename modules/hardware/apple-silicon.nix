@@ -79,9 +79,7 @@ let
 
           linux-asahi = callPackage linux-asahi-pkg { };
         in
-        lib.recurseIntoAttrs (
-          linuxPackagesFor linux-asahi
-        )
+        lib.recurseIntoAttrs (linuxPackagesFor linux-asahi)
       )
       {
         _kernelPatches = config.boot.kernelPatches;
@@ -105,7 +103,7 @@ in
   hardware.asahi = {
     enable = true;
     extractPeripheralFirmware = true;
-    peripheralFirmwareDirectory = inputs.asahi-firmware;
+    peripheralFirmwareDirectory = /etc/nixos/asahi-firmware;
   };
 
   boot.kernelPackages = lib.mkForce fairydustPackages;

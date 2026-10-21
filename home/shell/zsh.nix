@@ -14,6 +14,7 @@
 
     initContent = ''
       zstyle ':completion:*' menu select
+      PATH="$HOME/.local/bin:$PATH"
     '';
 
     shellAliases = {
@@ -24,7 +25,7 @@
       ls = "eza --group --header --group-directories-first";
       ll = "eza --group --header --group-directories-first --long --git";
       le = "eza --group --header --group-directories-first --extended --long";
-      lt = "eza --group --header --group-directories-first --tree --level";
+      lt = "eza --group --header --group-directories-first --tree --level=2";
       lc = "eza --group --header --group-directories-first --across";
       lo = "eza --group --header --group-directories-first --oneline";
 
