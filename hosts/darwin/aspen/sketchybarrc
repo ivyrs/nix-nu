@@ -1,0 +1,41 @@
+
+sketchybar --bar height=32 position=top 
+sketchybar --bar color=0x00000000
+sketchybar --default_item padding_left=8 padding_right=8
+
+sketchybar --add event aerospace_workspace_change
+
+for ws in wrk web pro cht mus ref; do
+  case "$ws" in
+    wrk|web|pro)
+      click="aerospace summon-workspace $ws"
+      ;;
+    cht|mus|ref)
+      click="aerospace workspace $ws"
+      ;;
+  esac
+
+  sketchybar --add item "workspace.$ws" left \
+    --set "workspace.$ws" \
+      label="$ws" \
+      label.font="Aporetic Sans:Regular:13.0" \
+      background.drawing=off \
+      padding_left=8 \
+      padding_right=8 \
+      click_script="$click" \
+      script="if [ \"\$FOCUSED_WORKSPACE\" = \"$ws\" ]; then sketchybar --set workspace.$ws label='[ $ws ]'; else sketchybar --set workspace.$ws label='$ws'; fi" \
+    --subscribe "workspace.$ws" aerospace_workspace_change
+done
+
+sketchybar --add item clock right \
+    --set clock \
+        update_freq=30 \
+        icon.drawing=off \
+        label.font="Aporetic Sans:Regular:13.0" \
+        script="sketchybar --set clock label=\"[ $(date '+%Y-%m-%d  %H:%M') ]\""
+
+# Initialize workspace highlighting on startup
+sketchybar --trigger aerospace_workspace_change \
+  FOCUSED_WORKSPACE="$(aerospace list-workspaces --focused)"
+
+sketchybar --update

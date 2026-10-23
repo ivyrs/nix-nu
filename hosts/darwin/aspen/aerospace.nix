@@ -1,9 +1,16 @@
+{ pkgs, ... }:
 {
   services.aerospace = {
     enable = true;
 
     settings = {
       config-version = 2;
+
+      exec-on-workspace-change = [
+        "/bin/bash"
+        "-c"
+        "${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
+      ];
 
       # Layout
       gaps = {
@@ -180,11 +187,11 @@
         # Productivity
         {
           "if".app-id = "md.obsidian";
-          run = "move-node-to-workspace wrk";
+          run = "move-node-to-workspace pro";
         }
         {
           "if".app-id = "com.apple.iCal";
-          run = "move-node-to-workspace wrk";
+          run = "move-node-to-workspace pro";
         }
 
         # Communications

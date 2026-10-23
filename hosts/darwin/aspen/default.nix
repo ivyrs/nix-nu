@@ -11,6 +11,7 @@
     inputs.nix-homebrew.darwinModules.nix-homebrew
     ./homebrew.nix
     ./aerospace.nix
+    ./sketchybar.nix
     ../../../modules/system/nix
     ../../../modules/system/fonts.nix
   ];
