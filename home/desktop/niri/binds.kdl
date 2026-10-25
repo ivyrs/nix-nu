@@ -7,29 +7,45 @@ binds {
     // ghostty's app-id must be dotted reverse-DNS (GTK GApplication ID
     // requirement) or it silently falls back to the com.mitchellh.ghostty
     // default and this class-based match won't distinguish the window.
-    Mod+E hotkey-overlay-title="open file manager" { spawn "focus-or-spawn" "re.ivy.yazi" "ghostty" "--class=re.ivy.yazi" "-e" "yazi"; }
+    Mod+E hotkey-overlay-title="open file manager" { spawn "focus-or-spawn" "rs.ivy.yazi" "ghostty" "--class=rs.ivy.yazi" "-e" "yazi"; }
     Mod+O hotkey-overlay-title="open obsidian" { spawn "focus-or-spawn" "md.Obsidian" "obsidian"; }
-    Mod+D hotkey-overlay-title="open launcher" { spawn-sh "noctalia msg panel-toggle launcher"; }
     Super+Alt+L hotkey-overlay-title="lock screen" { spawn-sh "noctalia msg session lock"; }
 
     Mod+N hotkey-overlay-title="open control center" { spawn-sh "noctalia msg panel-toggle control-center"; }
-    Mod+B hotkey-overlay-title="open clipboard history" { spawn-sh "noctalia msg panel-toggle clipboard"; }
     Mod+Tab hotkey-overlay-title="open window switcher" { spawn-sh "noctalia msg window-switcher"; }
     Mod+Shift+N hotkey-overlay-title="toggle do not disturb" { spawn-sh "noctalia msg notification-dnd-toggle"; }
     Mod+Shift+W hotkey-overlay-title="random wallpaper" { spawn-sh "noctalia msg wallpaper-random"; }
 
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    // ── launchers ─────────────────────────────────────────────
+    Mod+Slash hotkey-overlay-title="Command bar (otter)" {
+        spawn "ghostty" "--gtk-single-instance=false" "--class=rs.ivy.launcher" "-e" "otter-launcher";
+    }
+    Mod+D hotkey-overlay-title="App search (fsel)" {
+        spawn "ghostty" "--gtk-single-instance=false" "--class=rs.ivy.launcher" "-e" "fsel" "-d" "-r";
+    }
+
+    // ── workspaces ────────────────────────────────────────────
+    Mod+Grave hotkey-overlay-title="Toggle scratch workspace" { spawn "scratch-toggle"; }
+    Mod+Shift+Grave { move-window-to-workspace "scratch"; }
+    Alt+Tab { spawn-sh "noctalia msg window-switcher hold"; }
+
+    // ── Noctalia ──────────────────────────────────────────────
+    Mod+Shift+T hotkey-overlay-title="Toggle light/dark" { spawn-sh "noctalia msg theme-mode-toggle"; }
+    Print { spawn-sh "noctalia msg screenshot-region"; }
+    Shift+Print { spawn-sh "noctalia msg screenshot-fullscreen"; }
+
+    // ── media ─────────────────────────────────────────────────
+    XF86AudioPlay  allow-when-locked=true { spawn-sh "noctalia msg media toggle"; }
+    XF86AudioPause allow-when-locked=true { spawn-sh "noctalia msg media toggle"; }
+    XF86AudioNext  allow-when-locked=true { spawn-sh "noctalia msg media next"; }
+    XF86AudioPrev  allow-when-locked=true { spawn-sh "noctalia msg media previous"; }
+
+    // ── volume / brightness ───────────────────────────────────
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
     XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-
-    XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; }
-    XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
-    XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
-    XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
-
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "5%-"; }
 
     XF86KbdBrightnessUp allow-when-locked=true { spawn-sh "noctalia msg keyboard-backlight-up"; }
     XF86KbdBrightnessDown allow-when-locked=true { spawn-sh "noctalia msg keyboard-backlight-down"; }
@@ -173,6 +189,7 @@ binds {
     Mod+W { toggle-column-tabbed-display; }
 
     Mod+Shift+S { spawn-sh "noctalia msg screenshot-region"; }
+    Mod+Shift+1 { spawn-sh "noctalia msg screenshot-region"; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
 

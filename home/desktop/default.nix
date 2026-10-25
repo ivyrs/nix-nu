@@ -15,5 +15,6 @@
     ./niri
     ./noctalia
     ./helium.nix
+    ../new-shell
   ];
 }

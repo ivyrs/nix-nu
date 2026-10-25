@@ -78,3 +78,17 @@ window-rule {
     match app-id=r#"^md.Obsidian$"#
     open-focused true
 }
+
+window-rule {
+    match app-id=r#"^rs\.ivy\.tui$"#
+    open-floating true
+    default-column-width { fixed 1000; }
+    default-window-height { fixed 650; }
+}
+
+window-rule {
+    match app-id=r#"^rs\.ivy\.launcher$"#
+    open-floating true
+    default-column-width { fixed 500; }
+    default-window-height { fixed 600; }
+}

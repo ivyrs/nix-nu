@@ -33,6 +33,8 @@
     # wallpaper engine
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
 
+    umbriel.url = "github:noctalia-dev/umbriel";
+
     # terminal-based music player/library, pointed at Navidrome via the
     # subsonicsource plugin. Feeds the noctalia theme template in
     # home/desktop/noctalia.
@@ -40,6 +42,7 @@
       url = "github:ivyrs/musikcube2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     # Helium browser (prebuilt upstream Linux release, repackaged for Nix)
     helium-browser = {
       url = "github:oxcl/nix-flake-helium-browser";
@@ -47,6 +50,9 @@
     };
 
     nvf.url = "github:NotAShelf/nvf/v26.07";
+
+    fsel.url = "github:Mjoyufull/fsel";
+    otter-launcher.url = "github:kuokuo123/otter-launcher";
 
     # format all the things
     treefmt-nix = {
@@ -56,6 +62,11 @@
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    steam-asahi = {
+      url = "github:sm-idk/steam-asahi";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -188,12 +199,9 @@
 
       formatter = forAllSystems (system: treefmtEval.${system}.config.build.wrapper);
 
-      checks = forAllSystems (
-        system:
-        {
-          formatting = treefmtEval.${system}.config.build.check self;
-        }
-      );
+      checks = forAllSystems (system: {
+        formatting = treefmtEval.${system}.config.build.check self;
+      });
 
       devShells = forAllSystems (
         system:

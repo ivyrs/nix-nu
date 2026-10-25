@@ -1,0 +1,116 @@
+# ~/.config/otter-launcher/config.toml
+# Command bar for niri + Noctalia. Opened by Mod+Slash in a floating Ghostty
+# window (app-id rs.ivy.launcher). Known prefixes run a TUI in the same window;
+# anything else falls through to fsel app search.
+
+[general]
+height = 0
+default_module = "search"   # unmatched input -> fsel with the text pre-filled
+empty_module = "search"     # Enter on empty input -> fsel
+exec_cmd = "sh -c"
+
+[interface]
+header = """
+\u001B[2m[ $(date +%H:%M) ]  [ BAT $(cat /sys/class/power_supply/macsmc_battery/capacity)% ]  [ $USER@$(printf $HOSTNAME) ]\u001B[0m
+
+"""
+header_color = "reset"
+prefix_padding = 10          # longest prefix is "monitors" (8) + gap
+prefix_color = "yellow"
+description_color = "reset"
+prompt_sign = "/ "
+placeholder = "command"
+selection_prefix = "▌ "
+inverse_selection = true
+
+# ── apps (fsel) ────────────────────────────────────────────────
+# Keep unbind_proc off for these; -d detaches GUI apps so they
+# survive the launcher window closing.
+
+[[modules]]
+description = "search apps"
+prefix = "search"
+cmd = "fsel -d -r -ss \"{}\""
+with_argument = true
+
+[[modules]]
+description = "launch app directly"
+prefix = "app"
+cmd = "fsel -d -r -p \"{}\""
+with_argument = true
+
+# ── command mode ───────────────────────────────────────────────
+# Each runs in place of otter; quitting the TUI closes the window.
+
+[[modules]]
+description = "help"
+prefix = "man"
+cmd = "tui nvim ~/.config/otter-launcher/man.txt"
+
+[[modules]]
+description = "nm config"
+prefix = "wifi"
+cmd = "tui nmtui"
+
+[[modules]]
+description = "open btop"
+prefix = "stat"
+cmd = "tui btop"
+
+[[modules]]
+description = "open music player"
+prefix = "music"
+cmd = "tui musikcube"
+
+[[modules]]
+description = "flash moonlander"
+prefix = "kb"
+cmd = "tui zapp update"
+
+[[modules]]
+description = "audio mixer"
+prefix = "audio"
+cmd = "tui wiremix"
+
+[[modules]]
+description = "display config"
+prefix = "monitors"
+cmd = "setsid -f wdisplays"
+
+# ── shell control ──────────────────────────────────────────────
+
+[[modules]]
+description = "toggle light/dark"
+prefix = "theme"
+cmd = "noctalia msg theme-mode-toggle && noctalia msg wallpaper-random"
+
+[[modules]]
+description = "open wallpaper menu"
+prefix = "wall"
+cmd = "noctalia msg wallpaper-random"
+
+[[modules]]
+description = "randomise wallpaper"
+prefix = "rand-wall"
+cmd = "noctalia msg wallpaper-random"
+
+[[modules]]
+description = "lock"
+prefix = "lock"
+cmd = "noctalia msg session lock"
+
+# ── escape hatch ───────────────────────────────────────────────
+
+[[modules]]
+description = "run a shell command"
+prefix = "sh"
+cmd = "{}"
+with_argument = true
+
+# tailscale
+
+[[modules]]
+description = "configure tailscale"
+prefix = "ts"
+cmd = "tui lazytailscale"
+

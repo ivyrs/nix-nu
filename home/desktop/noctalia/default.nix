@@ -12,7 +12,7 @@
     ../../dev/neovim/module.nix
   ];
 
-  home.packages = [ pkgs.swappy ];
+  home.packages = [ pkgs.ddcutil ];
 
   programs.noctalia = {
     enable = true;

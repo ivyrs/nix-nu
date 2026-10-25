@@ -46,6 +46,8 @@
     firewall.enable = true;
   };
 
+  services.tailscale.extraSetFlags = [ "--operator=ivy" ];
+
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
 
@@ -56,12 +58,8 @@
     powerOnBoot = true;
   };
 
-  environment.systemPackages = [ ]; # optional for now
-
+  environment.systemPackages = [ ];
   system.stateVersion = "25.11";
-
-  # Extracted Apple firmware must not be uploaded with arbitrary store paths.
-  systemd.services.cachix-watch-store.enable = false;
 
   users.users.${metadata.user.username}.hashedPasswordFile =
     config.sops.secrets.ivy-password-hash-alder.path;
