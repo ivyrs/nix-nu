@@ -11,7 +11,7 @@
   home.packages = [
     pkgs.wiremix
     pkgs.wdisplays
-    (pkgs.callPackage ../../pkgs/lazytailscale.nix { })
+    (pkgs.callPackage ../../../pkgs/lazytailscale.nix { })
     (pkgs.writeShellApplication {
       name = "tui";
       runtimeInputs = [

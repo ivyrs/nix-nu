@@ -14,7 +14,8 @@
   ++ lib.optionals (!isDarwin) [
     ./niri
     ./noctalia
+    ./umbriel
     ./helium.nix
-    ../new-shell
+    ./new-shell
   ];
 }

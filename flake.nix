@@ -33,7 +33,7 @@
     # wallpaper engine
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
 
-    umbriel.url = "github:noctalia-dev/umbriel";
+    umbriel.url = "github:noctalia-dev/umbriel/cachix";
 
     # terminal-based music player/library, pointed at Navidrome via the
     # subsonicsource plugin. Feeds the noctalia theme template in
