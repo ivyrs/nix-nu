@@ -59,6 +59,10 @@
 
   zramSwap.enable = true;
 
+  # lets us build the x86_64-linux installer ISO (hosts/nixos/installer)
+  # locally under qemu emulation instead of needing a remote builder.
+  boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;

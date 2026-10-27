@@ -35,5 +35,10 @@
       name = "aspen";
       system = "aarch64-darwin";
     };
+
+    maple = {
+      name = "maple";
+      system = "x86_64-linux";
+    };
   };
 }

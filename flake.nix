@@ -112,9 +112,16 @@
     {
       inherit metadata;
 
-      nixosConfigurations = nixpkgs.lib.genAttrs [
+      nixosConfigurations = (nixpkgs.lib.genAttrs [
         "alder"
-      ] mkNixosHost;
+        "maple"
+      ] mkNixosHost) // {
+        installer = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs metadata; };
+          modules = [ ./hosts/nixos/installer ];
+        };
+      };
 
       darwinConfigurations.aspen = inputs.nix-darwin.lib.darwinSystem {
         system = metadata.hosts.aspen.system;
