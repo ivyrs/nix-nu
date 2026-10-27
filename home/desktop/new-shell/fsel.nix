@@ -1,8 +1,6 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 {
-  home.packages = [
-    inputs.fsel.packages.${pkgs.system}.default
-  ];
+  home.packages = [ pkgs.fsel ];
 
   xdg.configFile."fsel/config.toml".text = ''
     terminal_launcher = "ghostty --gtk-single-instance=false --class=rs.ivy.tui -e"

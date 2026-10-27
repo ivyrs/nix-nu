@@ -21,7 +21,8 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/75fc47d6-4ee5-4bf8-afb8-bd0e603481f0";
+  boot.initrd.luks.devices."cryptroot".device =
+    "/dev/disk/by-uuid/75fc47d6-4ee5-4bf8-afb8-bd0e603481f0";
 
   fileSystems."/" = {
     device = "/dev/mapper/cryptroot";

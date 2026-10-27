@@ -51,8 +51,15 @@
 
     nvf.url = "github:NotAShelf/nvf/v26.07";
 
-    fsel.url = "github:Mjoyufull/fsel";
-    otter-launcher.url = "github:kuokuo123/otter-launcher";
+    otter-launcher = {
+      url = "github:kuokuo123/otter-launcher";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
+    wlctl = {
+      url = "github:aashish-thapa/wlctl";
+    };
 
     # format all the things
     treefmt-nix = {
@@ -112,16 +119,18 @@
     {
       inherit metadata;
 
-      nixosConfigurations = (nixpkgs.lib.genAttrs [
-        "alder"
-        "maple"
-      ] mkNixosHost) // {
-        installer = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs metadata; };
-          modules = [ ./hosts/nixos/installer ];
+      nixosConfigurations =
+        (nixpkgs.lib.genAttrs [
+          "alder"
+          "maple"
+        ] mkNixosHost)
+        // {
+          installer = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = { inherit inputs metadata; };
+            modules = [ ./hosts/nixos/installer ];
+          };
         };
-      };
 
       darwinConfigurations.aspen = inputs.nix-darwin.lib.darwinSystem {
         system = metadata.hosts.aspen.system;
